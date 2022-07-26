@@ -1,5 +1,5 @@
-%\documentclass[10pt]{beamer}
-\documentclass[10pt,handout]{beamer}
+\documentclass[10pt]{beamer}
+%\documentclass[10pt,handout]{beamer}
 \usepackage[spanish]{babel}
 % % \usepackage[backend=biber, style=authoryear-icomp]{biblatex}
 \resetcounteronoverlays{exx}
@@ -326,11 +326,18 @@ se obtiene al sacar en $L_{1}$ el elemento en la i-esima posicion.
   Cuando la forma de agrupar las hojas se sincroniza con la agrupacion previa se finaliza, con
   la posibilidad de tener que insertar un nuevo nodo en el nivel anterior.
 
+
   Voy a tener un loop en el cual nivel por nivel, arrancando desde h-1, con h la altura del arbol.
   En cada uno arranco por el nodo que esta en el camino que va de la raiz al nodo insertado.
 
   Reorganizo los hijos de este nodo de la misma forma que con \texttt{Create}, y voy creando
   nodos vecinos a continuacion en caso de necesitarlo.
+
+  Basicamente inserto donde corresponde el nodo y dejo que tenga el grado que quiera (maximo 4).
+  Ahi el algoritmo me va a hacer pasar una cantiad de hijos (w) al vecino y va a tirar la monedas
+  sobre cuantos hijos tiene que tener este vecino y el loop vuelve a comenzar para este.
+  Luego hace lo mismo pero en el nivel de arriba y asi hasta llegar a la raiz.
+
   Cuando llego a una sincronizacion con la estructura original freno y paso al nivel anterior, donde
   se tiene que repetir el paso esta vez contemplando los nuevos nodos creados.
 
@@ -345,9 +352,97 @@ se obtiene al sacar en $L_{1}$ el elemento en la i-esima posicion.
 \section{}
 \begin{frame}
 \frametitle{}
+\small
+\begin{enumerate}\itemsep0em
+  \item Localizo la i-esima hoja e inserto el valor. Sea $u_0,...,u_h$ el camino
+    de la raiz a la nueva hoja.
+  \item Repetimos los siguientes pasos de l=h-1,h-2,...,0. Donde en cada iteracion
+    es de la raiz al nuevo nodo.
+    \vspace{-0.05cm}
+    \begin{enumerate}[a]\itemsep0em
+      \item Si $u_l$ es el ultimo nodo del nivel l:
+        \vspace{-0.05cm}
+        \begin{enumerate}[i]\itemsep0em
+          \item Si $u_l$ tiene grado 2 entonces ir al paso 3.
+          \item Si $u_l$ tiene grado 3, elijo de forma uniforme $d\in{2,3}$ y si
+            $d=4$ ir al paso 3, si no continuar.
+        \end{enumerate}
+      \item Inicializamos la variable w=1 y repetimos los pasos hasta w=0:
+        \vspace{-0.05cm}
+        \begin{enumerate}[i]\itemsep0em
+          \item Sea $u_l'=u_l$ y elegimos de forma uniforme $d\in{2,3}$. d es el grado
+            del nodo que sigue a $u_l'$.
+          \item Si d=w o si $u_l'$ es el ultimo nodo al nivel l, insertamos el nuevo nodo $u_l$
+            a la derecha de $u_l'$, seteamos w=0 y vamos al paso 2(b)v.
+          \item En caso contrario, hacemos $u_l$ el nodo que continua a $u_l'$ en el nivel l y
+            sea t=deg($u_l$) (el que tenia de antes).
+          \item Cambiamos de padre los ultimos $w$ hijos de $u_l'$ a $u_l$ y hacemos $w=max(0, t+w-d)$.
+          \item Recomputamos el tama\~no de los nodos a lo largo del camino de $u_l'$ a $u_l$ no incluido.
+        \end{enumerate}
+    \end{enumerate}
+  \item Si $l\geq$0, recomputamos la informacion de tama/~no de los nodos del camino.
+    En caso contrario aumentamos la altura del arbol en uno creando un nuevo nodo raiz
+    y hacemos de hijos $u_0'$ y el nuevo nodo $u_0$
+\end{enumerate}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{}
+\begin{frame}
+\frametitle{Ejemplo Insertar}
+  \only<1>{\centering Las dos unicas posibilidades
+    \begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.27]{insertCreate.jpg}
+\end{figure}}
+\pause
+  \only<2>{\centering primer caso
+    \begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.32]{insertCreateB0.jpg}
+\end{figure}\centering
+w=1 voy a pasarle un hijo, e independiente del d termina en 2ai/ii}
+\pause
+  \only<3>{\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.37]{insertCreateB1.jpg}
+\end{figure}}
+  \pause
+  \only<4>{\centering segundo caso
+    \begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.37]{insertCreateA0.jpg}
+\end{figure}
+\centering w=1, pasa un  hijo pero importa el d}
+  \pause
+  \only<5>{\centering caso d=2
+    \begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.37]{insertCreateA1.jpg}
+\end{figure}}
+  \pause
+  \only<6>{\centering caso d=2 nuevamente
+   \begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.37]{insertCreateA2.jpg}
+\end{figure}}
+  \pause
+  \only<7>{\centering Paso al nivel l-1
+    \begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.37]{insertCreateA3.jpg}
+\end{figure}}
+  \only<8>{\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.37]{insertCreateA4.jpg}
+\end{figure}}
+
 
 
 \end{frame}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -364,19 +459,35 @@ se obtiene al sacar en $L_{1}$ el elemento en la i-esima posicion.
 \section{}
 \begin{frame}
 \frametitle{}
-
+\small
+\begin{enumerate}\itemsep0em
+  \item Localizo la i-esima hoja e inserto el valor. Sea $u_0,...,u_h$ el camino
+    de la raiz a la nueva hoja.
+  \item Repetimos los siguientes pasos de l=h-1,h-2,...,0. Donde en cada iteracion
+    es de la raiz al nuevo nodo.
+    \vspace{-0.05cm}
+    \begin{enumerate}[a]\itemsep0em
+      \item Si $u_l$ es el ultimo nodo del nivel l:
+        \vspace{-0.05cm}
+      \item Borramos $u_{l+1}$ de los hijos de $u_l$.
+      \item Si $u_l$ es el ultimo nodo del nivel: Si $u_{l+1}$ era el unico hijo de $u_l$
+      , continuamos con la siguiente iteracion del loop 2, si no al paso 3.
+      \item Inicializamos la variable w=1 y repetimos los pasos hasta w=0:
+        \vspace{-0.05cm}
+        \begin{enumerate}[i]\itemsep0em
+          \item Sea $u_l'=u_l$ y movemos para adelante $u_l$.
+          \item Hacemos t=deg($u_l$). Si $w\geq t$, cambiamos los paodres de los hijos de $u_l$
+            a $u_l'$, seteamos w=0 y vamos al paso 2(c)v.
+          \item Elegimos de forma uniforme $d\in{2,3}$.
+          \item Cambiamos de padre los primeros $w$ hijos de $u_l'$ a $u_l$ y hacemos $w=d-t+w)$.
+          \item Recomputamos el tama\~no de los nodos a lo largo del camino de $u_l'$ a $u_l$ no incluido.
+        \end{enumerate}
+    \end{enumerate}
+  \item Si $l\geq$0, recomputamos la informacion de tama/~no de los nodos del camino.
+    En caso contrario borramos el nodo $u_0$ y hacemos $u_1$ la nueva raiz del arbol.
+\end{enumerate}
 
 \end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{}
-\begin{frame}
-\frametitle{}
-
-
-\end{frame}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{}
