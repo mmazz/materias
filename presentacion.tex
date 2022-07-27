@@ -68,10 +68,10 @@
 
 
 \institute{DC-UBA}
-\date{03 de Agosto de 2022}
+\date{01 de Agosto de 2022}
 
 \titlegraphic{\includegraphics[,height=2cm,keepaspectratio]{logo.pdf}     }
-%\logo{\includegraphics[height=2.5cm]{logo.pdf}}
+%\logo{\includegraphics[height=2.5cm]{logo.PDF}}
 
 \begin{document}
 
@@ -83,89 +83,164 @@
 
 \section{}
 \begin{frame}
-\frametitle{}
-Criptografia: Codificar mensajes y operaciones por motivos de seguridad.
+\frametitle{Introducción}
+Criptografía: Codificar mensajes y operaciones por motivos de seguridad.
 
-En particular lo aplicamos a la firma digital incremental de documentos.
+\pause
+Firma digital: mecanismo de criptográfico. Permite corroborar que un documento sea el correcto.
 
-Al modificar el documento incremento la firma sin necesidad de hacer una firma nueva.
+\pause
+Firma digital incremental: Al modificar el documento incremento la firma sin necesidad de hacer una firma nueva.
 
-
-El documento se divide en bloques y a cada uno se le pone una firma digital convencional.
-Cada resultado de estos es una hoja del arbol.
-Los nodos internos son tageados con una firma digital de sus hijos y un entero contando
-la cantidad de hojas del sub arbol, que tiene de raiz a dicho nodo.
-Por cada operacion basica, la firma del documento puse actualizada usando los Algoritmos
-de los arboles 2-3 y recomputando las firmas de los nodos internos que fueron modificados.
-Operaciones en tiempo O(logn).
-
-Problema: No tiene privacidad. Cada actualizacion contiene informacion de las modificaciones realizadas.
-
-Solución: Estructuras de datos indavertidas (Oblivious) $\rightarrow$ Oblivious trees.
+\pause
+Ejemplo:
+\begin{itemize}
+  \item Enviar un documento a multiples usuarios: firmo una única vez el documento y modifico de forma incremental.
+\pause
+  \item Cámara de vigilancia: envía frecuentemente imágenes firmadas en periodos cortos de tiempo.
+        Como posiblemente el cambio entre cuadro a cuadro es chico, hago firma incremental.
+\end{itemize}
 
 \end{frame}
-\section{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-\frametitle{}
+\frametitle{Problemas de Firma digital incremental}
+
+Dos problemas fundamentales: Seguridad y privacidad.
+
+\pause
+Seguridad:
+
+Un adversario puede conseguir un documento firmado (sin la clave) y no tiene que ser posible
+que produzca una modificación en el documento, volver a firmar y que no se note.
+
+\pause
+Privacidad:
+
+Una firma digital generado por un algoritmo de firma incremental no solo depende del documento
+$D$ si no de las operaciones que se le hicieron.
+Cierta información de como se se obtuvo $D$ como secuencia de operaciones de edición podrían ser
+calculadas con la firma del documento final.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Firma digital incremental}
+
+Esquema básico: Firmo de forma no incremental el documento con la modificación junto con su firma pasada.
+El tiempo de esto es proporcional al cambio realzado y no al documento entero.
+
 \begin{figure}[h!]
     \centering
-    \includegraphics[scale=0.25]{2-3tree.jpg}
+    \includegraphics[scale=0.3]{firma.jpg}
 \end{figure}
 
 
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Firma digital incremental}
+
+Primera propuesta Bellare, Goldreich y Goldwasser:
+\begin{itemize}
+  \item El documento se divide en bloques y a cada uno se le pone una firma digital convencional.
+\pause
+  \item Cada resultado de estos es una hoja del árbol de búsqueda.
+  \item Los nodos internos son gateados con una firma digital de sus hijos y un entero contando
+la cantidad de hojas del sub árbol, que tiene de raíz a dicho nodo.
+\pause
+\item Su propuesta es usando un árbol 2-3 para mantener el árbol balanceado.
+\item Por cada operación básica, la firma del documento es actualizada usando los Algoritmos
+de los arboles 2-3 y recomputando las firmas de los nodos internos que fueron modificados.
+Operaciones en tiempo O(logn).
+\end{itemize}
+
+
+\pause
+Si el algoritmo de firma no incremental es seguro también lo sera el incremental.
+
+Problema: No tiene privacidad. Cada actualización contiene información de las
+modificaciones realizadas.
+
+Solución: ?
+
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 \section{}
 \begin{frame}
-\frametitle{}
-Nos vamos a centrar en arboes
-Arboles AVL
-Por que lo quiero balanceado.
+\frametitle{Privacidad}
+Si tenemos el árbol ABCE e insertamos D obtenemos la figura $a$.
+
+Si tenemos el árbol ACDE e insertamos B obtenemos la figura $b$.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.25]{2-3tree.jpg}
+\end{figure}
+
+\pause
+La estructura del árbol me da información del orden de los nodos insertados.
+En caso que no lo de llamaremos a esa propiedad \texttt{obliviousness} (inadvertida).
+
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{}
 \begin{frame}
 \frametitle{}
-firma incremental
+
+Buscamos un algoritmo de firma incremental privada de misma complejidad (O(long)).
+
+El problema de privacidad se reduce únicamente a un problema de estructura de datos.
+
+\pause
+Es posible un árbol de búsqueda con algoritmos eficientes de inserción y borrado tal que el
+resultado final de aplicar una secuencia de operaciones no de información sobre la particular
+secuencias mas que el la secuencia de hojas finales?
+
+\pause
+Solución : Estructuras de datos inadvertidas (Oblivious) $\to$ Oblivious trees.
 
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{}
-\begin{frame}
-\frametitle{}
-Por que estos no preservan la privacidad
-
-\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{}
 \begin{frame}
 \frametitle{B-tree}
+Un mero repaso:
 
 \begin{columns}
     \column{0.5\textwidth}
-        Arbol autobalanceado de busqueda.
+    Árbol auto balanceado de búsqueda.
+    \begin{itemize}
+\pause
+       \item Balanceado: Permite búsquedas en peor caso de O(long).
+       \item Búsqueda: Mantiene orden dentro del árbol.
+\pause
+       \item Utilización: Reducir accesos al disco, (arboles grandes que no entran en memoria principal).
+       \item Arboles B de grado M
+    \end{itemize}
 
-Balanceado: Permite busquedas en peor caso de O(logn).
-
-Busqueda: Mantiene orden dentro del arbol.
-
-Utilizacion: Reducir accesos al disco, (arboles grandes que no entran en memoria principal).
-
-Arboles B de grado M
     \column{0.5\textwidth}
+    Árbol B de grado M.
         \begin{itemize}
-          \item Cada noto tiene como Maximo M hijos.
+\pause
+          \item Cada noto tiene como Máximo M hijos.
           \item Un nodo que no sea hoja con k hijos contiene k-1 claves.
-          \item La raiz tiene como minimo 2 hijos a menos que sea hoja.
-          \item Todo nodo que no sea ni raiz ni hoja tiene al menos M/2 hijos.
-          \item Todas las hojas estan al mismo nivel.
-          \item Las claves estan orndeandas en cada nodo.
+          \item La raíz tiene como mínimo 2 hijos a menos que sea hoja.
+\pause
+          \item Todo nodo que no sea ni raíz ni hoja tiene al menos M/2 hijos.
+          \item Todas las hojas están al mismo nivel.
+          \item Las claves están ordenadas en cada nodo.
         \end{itemize}
 \end{columns}
 \end{frame}
@@ -175,19 +250,21 @@ Arboles B de grado M
 \begin{frame}
 \frametitle{2-3 tree}
 
-Arboles 2-3 es un arbol B de grado 3.
+Arboles 2-3 es un árbol B de grado 3.
 \begin{itemize}
-  \item Nodos con 2 hijos (alias 2-nodes) con unica clave.
+  \item Nodos con 2 hijos (alias 2-nodes) con única clave.
   \item Nodos con 3 hijos (alias 3-nodes) con dos claves.
 \end{itemize}
 
-Insercion: Busco el lugar en orden para la nueva hoja. Si el nodo esta lleno, hago una division.
+\pause
+\textbf{Inserción}: Busco el lugar en orden para la nueva hoja. Si el nodo esta lleno, hago una division.
 Ordeno los valores y el del medio sube al nodo padre y los extremos se separan en nuevos nodos.
 Se realiza de forma recursiva en caso de necesitarse.
 Caso contrario lo agrego en orden.
 
-Borrado: Si el valor esta en un nodo interno: reemplazo el valor que quiero borrar por su
-successor en ornden y borro.
+\pause
+\textbf{Borrado}: Si el valor esta en un nodo interno: reemplazo el valor que quiero borrar por su
+successor en orden y borro.
 Si es una hoja lo borro. Pero si el padre tiene 2 claves y tenia 3 hijos, al quedar con dos se rompe el invariante.
 Bajo una de las claves del padre a uno de los nodos.
 \end{frame}
@@ -204,14 +281,18 @@ Queremos un 2-3 tree pero sin perdida de privacidad.
 
 Modificaciones:
 \begin{itemize}
-  \item Permite nodos con un unico hijo, solo en caso que sea el ultimo nodo de la derecha.
+\pause
+  \item Permite nodos con un único hijo, solo en caso que sea el ultimo nodo de la derecha.
   \item Toda la información de las firmas esta en las hojas.
-  \item Deja de ser una estrucutra deterministica para ser probabilistica.
+\pause
+  \item Deja de ser una estructura deterministica para ser probabilística.
+  \item Algoritmos de inserción y borrado aleatorios.
 \end{itemize}
 
-Cada nodo guarda su grado que es la cantidad de hijos que tine.
-Tambien guarda su tamaño que es la cantidad de hojas que tiene el subarbol que tiene como
-raiz al mismo.
+\pause
+Cada nodo guarda su grado que es la cantidad de hijos que tiene.
+También guarda su tamaño que es la cantidad de hojas que tiene el subárbol que tiene como
+raíz al mismo.
 \end{frame}
 
 
@@ -223,52 +304,72 @@ raiz al mismo.
 
 Definiciones:
 
-Un conjunto S de algoritmos que implementan un cierto conjunto de operaciones sobre el arbol de busqueda es
-\texttt{Oblivious} si dada dos secuencias de operaciones $p_i$ y $q_i$ generan un arbol con una secuencias
-de valores L y ambos tienen misma distribucion de probabilidad de salida.
+Un conjunto S de algoritmos que implementan un cierto conjunto de operaciones sobre el árbol de búsqueda es
+\texttt{Oblivious} si dada dos secuencias de operaciones $p_i$ y $q_i$ generan un árbol con una secuencias
+de valores L y ambos tienen misma distribución de probabilidad de salida.
 
 
+\pause
 Vamos a tener
 \begin{itemize}
-  \item \texttt{Crear}(L): Construye un nuevo arbol de busqueda con los valores de la secuencia L en las hojas.
-  \item \texttt{Insertar}(b,i,T): Inserta una nueva hoja con valor b en la posicion i-esima del arbol T.
-  \item \texttt{Borrar}(i,T): Remueve la hoja i-esima del arbol T.
+  \item \texttt{Crear}(L): Construye un nuevo árbol de búsqueda con los valores de la secuencia L en las hojas. Tiempo O(n)
+\pause
+  \item \texttt{Insertar}(b,i,T): Inserta una nueva hoja con valor b en la posición i-esima del árbol T. Tiempo O(logn)
+\pause
+  \item \texttt{Borrar}(i,T): Remueve la hoja i-esima del árbol T. O(logn)
 \end{itemize}
 
-Condicion para ser inadvertido.
-
-Insertar(b,i,Crear($L_1$)) tiene la misma distribucion de probabilidad que Crear($L_2$), donde $L_{2}$
-se obtiene al insetar en $L_{1}$ el elemento b en la i-esima posicion.
-
-Borrar(i, Crear($L_{1}$)) tiene la misma distribucion de probabilidad que Crear($L_2$), donde $L_{2}$
-se obtiene al sacar en $L_{1}$ el elemento en la i-esima posicion.
+\pause
+Los tres algoritmos utilizan una moneda para la aleatoriedad.
 
 
 \end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\section{}
+\begin{frame}
+\frametitle{Estructura de datos inadvertidas}
+
+Condición para ser inadvertido:
+\pause
+
+Insertar(b,i,Crear($L_1$)) tiene la misma distribución de probabilidad que Crear($L_2$), donde $L_{2}$
+se obtiene al insertar en $L_{1}$ el elemento b en la i-esima posición.
+\pause
+
+Borrar(i, Crear($L_{1}$)) tiene la misma distribución de probabilidad que Crear($L_2$), donde $L_{2}$
+se obtiene al sacar en $L_{1}$ el elemento en la i-esima posición.
+
+\pause
+Ambos algoritmos se independizan de las monedas tiradas de las operaciones pasadas aplicadas.
+\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Algoritmos}
 \begin{frame}
-\frametitle{Creacion}
+\frametitle{Creación}
 
-\texttt{Crear}(L): Crea un nuevo arbol. Bottom-up
+\texttt{Crear}(L): Crea un nuevo árbol. Bottom-up
 
   L: Lista de claves.
 
   Tiempo: O(n)
 
+\pause
   Se inicia con todas las claves en las hojas en orden dado.
-  Y se arma el arbol de abajo arriba, izquierda a derecha.
+  Y se arma el árbol de abajo arriba, izquierda a derecha.
 
-\begin{itemize}
+\pause
+\begin{itemize}\itemsep-1em
   \item Se inicia con la primer clave.
   \item Se obtiene un valor random d={2,3}.
+\pause
   \item Si en el nivel que estoy tengo esa cantidad de nodos, los hago hijos de
     un nodo padre del nivel superior.
   \item Si no hay esa cantidad, d=cantidad de nodos, y los hago hijos de un nodo
     padre del nivel superior.
-  \item Finalizo al no tener mas nodos (raiz).
+\pause
+  \item Finalizo al no tener mas nodos (raíz).
 \end{itemize}
 
 \end{frame}
@@ -276,7 +377,7 @@ se obtiene al sacar en $L_{1}$ el elemento en la i-esima posicion.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}
-\frametitle{Ejemplo creacion}
+\frametitle{Ejemplo creación}
 
   \only<1>{\begin{figure}[h!]
     \centering
@@ -319,8 +420,8 @@ se obtiene al sacar en $L_{1}$ el elemento en la i-esima posicion.
 
 \begin{frame}
 \frametitle{Algoritmo Insertar}
-  \texttt{Insertar}(i,b, T): Inserto el nodo hoja en la i-esima posicion y los nodos que le siguen son agrupados
-  como se hace con  \texttt{Crear} hasta que se sincroniza con el arbol.
+  \texttt{Insertar}(i,b, T): Inserto el nodo hoja en la i-esima posición y los nodos que le siguen son agrupados
+  como se hace con  \texttt{Crear} hasta que se sincroniza con el árbol.
 
   Son dos loops anidados.
 
@@ -334,24 +435,29 @@ se obtiene al sacar en $L_{1}$ el elemento en la i-esima posicion.
 \begin{frame}
 \frametitle{Algoritmo Insertar}
  \begin{enumerate}\itemsep-1em
-  \item Inserto hoja en la i-esima posicion.
+  \item Inserto hoja en la i-esima posición.
   \item Loop en l: voy de l=h-1 hasta l=0.
-    Donde h es la altura del arbol y $u_l$ el nodo del camino raiz a hoja en el nivel l.
+    Donde h es la altura del árbol y $u_l$ el nodo del camino raíz a hoja en el nivel l.
+\pause
     \vspace{-0.4cm}
     \begin{enumerate}[a]\itemsep-1em
     \item Si $u_l$ es el ultimo: Si $deg(u_l)=2$ listo, si $deg(u_l)=3$, se tira moneda $d$, si sale 3 listo. Recalculo los sizes.
       Si $deg(u_l)=3$ pero $d=2$ se continua al siguiente caso.
+\pause
     \item Inicializo w=1 y termina con w=0 (loop en nivel l).
           \vspace{-0.4cm}
       \begin{enumerate}[i]\itemsep-1em
+\pause
         \item Tiro moneda d para el grado del nodo vecino derecho a $u_l$.
-        \item Transfiero los ultimos w hijos de $u_l$ al vecino (si no existe lo creo).
-        \item Actualizo como w=max(0, t+w-d), donde t es el grado del nodo vecino originalmente y d lo que salio la moneda.
-         \item Se recomputan los tama\~nos de los nodos insertados.
+        \item Transfiero los últimos w hijos de $u_l$ al vecino (si no existe lo creo).
+\pause
+        \item Actualizo w como w=max(0, t+w-d), donde t es el grado del nodo vecino originalmente y d lo que salio la moneda.
+         \item Se re computan los tama\~nos de los nodos insertados.
       \end{enumerate}
   \end{enumerate}
-  \item  Recomputa el camino desde la raiz hasta la hoja insertada.
-  Si la raiz tiene nuevo vecino, creo nueva raiz.
+\pause
+  \item  Recomputa el camino desde la raíz hasta la hoja insertada.
+  Si la raíz tiene nuevo vecino, creo nueva raíz.
 \end{enumerate}
 
 \end{frame}
@@ -420,8 +526,8 @@ w=1 voy a pasarle un hijo, e independiente del d termina en 2ai/ii}
 \section{}
 \begin{frame}
 \frametitle{Borrado}
-\texttt{Borrar}(i, T): Borro el nodo hoja de la i-esima posicion y los nodos que le siguen son agrupados
-  como se hace con  \texttt{Crear} hasta que se sincroniza con el arbol.
+\texttt{Borrar}(i, T): Borro el nodo hoja de la i-exima posición y los nodos que le siguen son agrupados
+  como se hace con  \texttt{Crear} hasta que se sincroniza con el árbol.
 
   Son dos loops anidados. Muy similar al Insertar, misma nomenclatura.
 
@@ -434,25 +540,31 @@ w=1 voy a pasarle un hijo, e independiente del d termina en 2ai/ii}
 \frametitle{Algoritmo Borrar}
 
  \begin{enumerate}\itemsep-1em
+\pause
   \item Loop en l: voy de l=h-1 hasta l=0.
-    Donde h es la altura del arbol y $u_l$ el nodo del camino raiz al nodo en el nivel l a remover.
+    Donde h es la altura del árbol y $u_l$ el nodo del camino raíz al nodo en el nivel l a remover.
     \vspace{-0.4cm}
     \begin{enumerate}[a]\itemsep-1em
     \item Borro $u_{l+1}$ de los hijos de $u_l$.
-    \item Si $u_l$ es el ultimo: Si $u_{l=1}$ es el unico hijo de $u_l$ paso a la siguiente iteracion, caso contrario
+\pause
+    \item Si $u_l$ es el ultimo: Si $u_{l+1}$ es el único hijo de $u_l$ paso a la siguiente iteracion, caso contrario
       voy al paso 3.
     \item Inicializo w=1 y termina con w=0 (loop en nivel l).
           \vspace{-0.4cm}
       \begin{enumerate}[i]\itemsep-1em
-        \item t=$deg(u_l)$, si $w\geq t$ cambio los hijos del vecino derecho a $u_l$ y pongo w=0 y recomputo  tama\~nos.
+\pause
+        \item si $w\geq t$ cambio los hijos del vecino derecho a $u_l$ y pongo w=0 y recomputo  tama\~nos.
         \item Tiro moneda d.
+\pause
         \item Transfiero los  primeros w hijos del vecino derecho a $u_l$.
         \item Actualizo como w=max(0, d-t+w).
+\pause
         \item Se recomputan los tama\~nos de los nodos modificados.
       \end{enumerate}
   \end{enumerate}
-  \item  Recomputa el camino desde la raiz hasta la hoja insertada.
-  Si la raiz tenia 2 hijos y borre 1, hago a su unico hijo la raiz y borro la raiz original.
+\pause
+  \item  Recomputa el camino desde la raíz hasta la hoja insertada.
+  Si la raíz tenia 2 hijos y borre 1, hago a su único hijo la raíz y borro la raíz original.
 \end{enumerate}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -464,38 +576,105 @@ Calculo \texttt{Insertar} y \texttt{Borrar} similares.
 Calculamos el primero.
 Rec: Tiempo esperado O(logn).
 \vspace{-0.2cm}
+\pause
 
 Parte critica del algoritmo el loop anidado. El loop principal como mucho puede
 correrse h=O(logn) veces.
 \vspace{-0.2cm}
 
-Dem que w Solo toma valores {0,1,2}. Rec: w inicializa con 1 y si $d\neq w$ w=max{0, t+w-d}. $t\in{1,2,3}$ y $d\in{2,3}$
-Trivialmente se comprueba.
+Dem que w Solo toma valores \{0,1,2\}.
+
+Rec: w inicializa con 1 y si $d\neq w$ w=max\{0, t+w-d\}. $t\in\{1,2,3\}$ y $d\in\{2,3\}$
+
+Dem: inducción
+Mínimo t+w-d = 1 + 1 - 3 = -1
+
+Máximo ($d\neq w$) t+w-d = 3+2-3= 3+1-2 = 2.
+
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{}
+\begin{frame}
+\frametitle{Calculo de complejidad}
+Lema: en cada iteración de este loop, hay proba 1/4 de setear w=0 (y así terminar el loop) dentro de 2 iteraciones.
 \vspace{-0.2cm}
 
-Lema: en cada iteracion de este loop, hay proba 1/4 de setear w=0 (y asi terminar el loop) dentro de 2 iteraciones.
-\vspace{-0.2cm}
-
-Dem: en cada iteracion $w\in{2,3}$. Si $u_l$ es el ultimo nodo w=0.
+Dem: en cada iteración $w\in\{2,3\}$. Si $u_l$ es el ultimo nodo w=0.
 Si no, podemos tener w=2 y con proba 1/2 sacar d=2 y terminar.
 Si tenemos w=1 tenemos dos casos.
 \vspace{-0.3cm}
+\pause
 \begin{itemize}\itemsep-1em
   \item t=2: con proba 1/2 tenemos d=3 y entonces w=t+w-d=0, termino.
+\pause
   \item t=3: con proba 1/2 tenemos d=2 y actualizamos  w=t+w-d=2, que en la siguiente
-    iteracion seteamos w=0 con probabilidad 1/2.
+    iteración seteamos w=0 con probabilidad 1/2.
 \end{itemize}
+
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{}
+\begin{frame}
+\frametitle{Calculo de complejidad}
+El tiempo del algoritmo sera proporcional a la cantidad de nodos visitados.
+
+
+
+Cada nodo es visitado a lo sumo dos veces.
+O al buscar donde insertarlo y luego al recomputar su tama\~no.
+O al pasar por ser vecino y luego recomputar su tama\~no.
+
+Sea $T_l$ la cantidad de nodos visitados en el nivel $l$.
+Tenemos nodos  visitados en la primer iteración y los nodos visitados en el loop principal.
+
+Sea $X_l$ la cantidad de nodos visitados en la iteración $l$.
+Por el lema en cada nivel la cantidad de nodos sera una serie geométrica con parámetro 1/4 que
+depende solo de las monedas tiradas en cada iteración.
+Y como mucho sera dos veces.
+Es decir acotado por $2X_l$.
+
+El numero de nodos visitados durante la iteración previa puede ser acotado por $T_{l+1}/2 +1$.
+Ya que dado que el único nodo en el nivel $l$ visitado en una iteración $j\geq l$ son los
+nodos padres visitados en el nivel j.
+
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{}
+\begin{frame}
+\frametitle{Calculo de complejidad}
+Nos queda
+
+\begin{equation}
+  Time = \sum_{i=1}^h T_i\leq \sum_{i=1}^h (T_{l+1}/2 +1 + 2X_i)
+\end{equation}
+
+Si restamos de ambos lados Time/2 y multiplicamos por dos llegamos a la cota superior:
+
+\begin{equation}
+  Time \leq 2h + 4X
+\end{equation}
+
+Y dado que $X= \sum_{i=1}^h X_i$ de una distribución geométrica con parámetro 1/4 que tiene
+un valor esperado de 4h.
+
+Tenemos Time $\propto h=logn$
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{}
 \begin{frame}
-\frametitle{Misma distribucion de probabilidad.}
+\frametitle{Misma distribución de probabilidad.}
 
 Queremos probar que para toda secuencia $L=L[1]L[2]...L[n]$, y sea $i\leq n$ y b una clave,
-loas siguientes igualidades se cumplem para las distribuciones de probabilidad.
+loas siguientes igualidades se cumplen para las distribuciones de probabilidad.
 
+\pause
 \begin{centering}
   \texttt{Insertar}(i,b, \texttt{Crear}(L))=\texttt{Crear}(L[1],...,L[i],b,L[i+1],...,L[n])
 \end{centering}
@@ -504,10 +683,12 @@ loas siguientes igualidades se cumplem para las distribuciones de probabilidad.
   \texttt{Borrar}(i \texttt{Crear}(L))=\texttt{Crear}(L[1],...,L[i-1],L[i+1],...,L[n])
 \end{centering}
 
-Dem primer caso, segundo caso analogo.
+\pause
+Dem: primer caso. Segundo caso análogo.
 
-Por un lado en cada iteracion $l$ solo se cambia la topologia de ese nivel y que
-hasta el hijo en cuestion no se modifica su agrupado con el algoritmo de \texttt{Insertar}.
+\pause
+Por un lado en cada iteración $l$ solo se cambia la topología de ese nivel y que
+hasta el hijo en cuestión no se modifica su agrupado con el algoritmo de \texttt{Insertar}.
 Los siguientes nodos son modificados de la misma forma que \texttt{Crear} pero con
 monedas diferentes e independientes.
 Esto genera que tengan mismas distribuciones de probabilidad.
@@ -542,13 +723,15 @@ Basta con probar que \texttt{Crear}(ABCDE) tiene las mismas probabilidades.
 \begin{itemize}
   \item Primer caso, d=3 prob 1/2, termina (caso a). \pause
   \item Segundo caso d=2, prob 1/2, sigue en el siguiente nodo:
+\pause
     \begin{itemize}\pause
       \item d=3, con prob 1/2*1/2=1/4, termina (caso b).\pause
-      \item d=2, prob 1/2*1/2=1/4, termina en ese nivel pero sigue en el proximo:
+      \item d=2, prob 1/2*1/2=1/4, termina en ese nivel pero sigue en el próximo:
+\pause
         \begin{itemize}\pause
           \item d=3, prob 1/4*1/2=1/8, termina (caso c).\pause
-          \item d=2, prob 1/4*1/2=1/8, crea un nodo al lado de la raiz. Se crea
-            un nuevo nivel con nueva raiz.
+          \item d=2, prob 1/4*1/2=1/8, crea un nodo al lado de la raíz. Se crea
+            un nuevo nivel con nueva raíz.
         \end{itemize}
     \end{itemize}
 \end{itemize}
