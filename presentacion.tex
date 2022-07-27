@@ -1,5 +1,5 @@
-\documentclass[10pt]{beamer}
-%\documentclass[10pt,handout]{beamer}
+%\documentclass[10pt]{beamer}
+\documentclass[10pt,handout]{beamer}
 \usepackage[spanish]{babel}
 % % \usepackage[backend=biber, style=authoryear-icomp]{biblatex}
 \resetcounteronoverlays{exx}
@@ -230,9 +230,9 @@ de valores L y ambos tienen misma distribucion de probabilidad de salida.
 
 Vamos a tener
 \begin{itemize}
-  \item Crear(L): Construye un nuevo arbol de busqueda con los valores de la secuencia L en las hojas.
-  \item Insertar(b,i,T): Inserta una nueva hoja con valor b en la posicion i-esima del arbol T.
-  \item Borrar(i,T): Remueve la hoja i-esima del arbol T.
+  \item \texttt{Crear}(L): Construye un nuevo arbol de busqueda con los valores de la secuencia L en las hojas.
+  \item \texttt{Insertar}(b,i,T): Inserta una nueva hoja con valor b en la posicion i-esima del arbol T.
+  \item \texttt{Borrar}(i,T): Remueve la hoja i-esima del arbol T.
 \end{itemize}
 
 Condicion para ser inadvertido.
@@ -252,7 +252,7 @@ se obtiene al sacar en $L_{1}$ el elemento en la i-esima posicion.
 \begin{frame}
 \frametitle{Creacion}
 
-  Creacion(L): Crea un nuevo arbol. Bottom-up
+\texttt{Crear}(L): Crea un nuevo arbol. Bottom-up
 
   L: Lista de claves.
 
@@ -315,74 +315,43 @@ se obtiene al sacar en $L_{1}$ el elemento en la i-esima posicion.
 
 \end{frame}
 
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}
-\frametitle{Insercion}
-  Insercion(i,b, T). Inserto el nodo hoja en la i-esima posicion y los nodos que le siguen son agrupados
-  como se hace con  \texttt{Create}.
-  Cuando la forma de agrupar las hojas se sincroniza con la agrupacion previa se finaliza, con
-  la posibilidad de tener que insertar un nuevo nodo en el nivel anterior.
+\frametitle{Algoritmo Insertar}
+  \texttt{Insertar}(i,b, T): Inserto el nodo hoja en la i-esima posicion y los nodos que le siguen son agrupados
+  como se hace con  \texttt{Crear} hasta que se sincroniza con el arbol.
 
+  Son dos loops anidados.
 
-  Voy a tener un loop en el cual nivel por nivel, arrancando desde h-1, con h la altura del arbol.
-  En cada uno arranco por el nodo que esta en el camino que va de la raiz al nodo insertado.
-
-  Reorganizo los hijos de este nodo de la misma forma que con \texttt{Create}, y voy creando
-  nodos vecinos a continuacion en caso de necesitarlo.
-
-  Basicamente inserto donde corresponde el nodo y dejo que tenga el grado que quiera (maximo 4).
-  Ahi el algoritmo me va a hacer pasar una cantiad de hijos (w) al vecino y va a tirar la monedas
-  sobre cuantos hijos tiene que tener este vecino y el loop vuelve a comenzar para este.
-  Luego hace lo mismo pero en el nivel de arriba y asi hasta llegar a la raiz.
-
-  Cuando llego a una sincronizacion con la estructura original freno y paso al nivel anterior, donde
-  se tiene que repetir el paso esta vez contemplando los nuevos nodos creados.
-
-  En casos donde estoy parado en el ultimo nodo de un nivel puede terminarse antes ya que se sincroniza
-  con la estrucutra anterior.
-
-   Al finalizar computno nuevamente la informacion de los tamaños de los nodos modificados.
+  Tiempo: O(logn)
 \end{frame}
 
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{}
 \begin{frame}
-\frametitle{}
-\small
-\begin{enumerate}\itemsep0em
-  \item Localizo la i-esima hoja e inserto el valor. Sea $u_0,...,u_h$ el camino
-    de la raiz a la nueva hoja.
-  \item Repetimos los siguientes pasos de l=h-1,h-2,...,0. Donde en cada iteracion
-    es de la raiz al nuevo nodo.
-    \vspace{-0.05cm}
-    \begin{enumerate}[a]\itemsep0em
-      \item Si $u_l$ es el ultimo nodo del nivel l:
-        \vspace{-0.05cm}
-        \begin{enumerate}[i]\itemsep0em
-          \item Si $u_l$ tiene grado 2 entonces ir al paso 3.
-          \item Si $u_l$ tiene grado 3, elijo de forma uniforme $d\in{2,3}$ y si
-            $d=4$ ir al paso 3, si no continuar.
-        \end{enumerate}
-      \item Inicializamos la variable w=1 y repetimos los pasos hasta w=0:
-        \vspace{-0.05cm}
-        \begin{enumerate}[i]\itemsep0em
-          \item Sea $u_l'=u_l$ y elegimos de forma uniforme $d\in{2,3}$. d es el grado
-            del nodo que sigue a $u_l'$.
-          \item Si d=w o si $u_l'$ es el ultimo nodo al nivel l, insertamos el nuevo nodo $u_l$
-            a la derecha de $u_l'$, seteamos w=0 y vamos al paso 2(b)v.
-          \item En caso contrario, hacemos $u_l$ el nodo que continua a $u_l'$ en el nivel l y
-            sea t=deg($u_l$) (el que tenia de antes).
-          \item Cambiamos de padre los ultimos $w$ hijos de $u_l'$ a $u_l$ y hacemos $w=max(0, t+w-d)$.
-          \item Recomputamos el tama\~no de los nodos a lo largo del camino de $u_l'$ a $u_l$ no incluido.
-        \end{enumerate}
-    \end{enumerate}
-  \item Si $l\geq$0, recomputamos la informacion de tama/~no de los nodos del camino.
-    En caso contrario aumentamos la altura del arbol en uno creando un nuevo nodo raiz
-    y hacemos de hijos $u_0'$ y el nuevo nodo $u_0$
+\frametitle{Algoritmo Insertar}
+ \begin{enumerate}\itemsep-1em
+  \item Inserto hoja en la i-esima posicion.
+  \item Loop en l: voy de l=h-1 hasta l=0.
+    Donde h es la altura del arbol y $u_l$ el nodo del camino raiz a hoja en el nivel l.
+    \vspace{-0.4cm}
+    \begin{enumerate}[a]\itemsep-1em
+    \item Si $u_l$ es el ultimo: Si $deg(u_l)=2$ listo, si $deg(u_l)=3$, se tira moneda $d$, si sale 3 listo. Recalculo los sizes.
+      Si $deg(u_l)=3$ pero $d=2$ se continua al siguiente caso.
+    \item Inicializo w=1 y termina con w=0 (loop en nivel l).
+          \vspace{-0.4cm}
+      \begin{enumerate}[i]\itemsep-1em
+        \item Tiro moneda d para el grado del nodo vecino derecho a $u_l$.
+        \item Transfiero los ultimos w hijos de $u_l$ al vecino (si no existe lo creo).
+        \item Actualizo como w=max(0, t+w-d), donde t es el grado del nodo vecino originalmente y d lo que salio la moneda.
+         \item Se recomputan los tama\~nos de los nodos insertados.
+      \end{enumerate}
+  \end{enumerate}
+  \item  Recomputa el camino desde la raiz hasta la hoja insertada.
+  Si la raiz tiene nuevo vecino, creo nueva raiz.
 \end{enumerate}
 
 \end{frame}
@@ -392,7 +361,9 @@ se obtiene al sacar en $L_{1}$ el elemento en la i-esima posicion.
 \section{}
 \begin{frame}
 \frametitle{Ejemplo Insertar}
-  \only<1>{\centering Las dos unicas posibilidades
+Ejemplo: \texttt{Insertar}(1, B, \texttt{Crear}(ACDE)).
+
+  \only<1>{\centering Las dos unicas posibilidades de \texttt{Crear}(ACDE).
     \begin{figure}[h!]
     \centering
     \includegraphics[scale=0.27]{insertCreate.jpg}
@@ -449,8 +420,142 @@ w=1 voy a pasarle un hijo, e independiente del d termina en 2ai/ii}
 \section{}
 \begin{frame}
 \frametitle{Borrado}
+\texttt{Borrar}(i, T): Borro el nodo hoja de la i-esima posicion y los nodos que le siguen son agrupados
+  como se hace con  \texttt{Crear} hasta que se sincroniza con el arbol.
+
+  Son dos loops anidados. Muy similar al Insertar, misma nomenclatura.
 
   Tiempo: O(logn)
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Algoritmo Borrar}
+
+ \begin{enumerate}\itemsep-1em
+  \item Loop en l: voy de l=h-1 hasta l=0.
+    Donde h es la altura del arbol y $u_l$ el nodo del camino raiz al nodo en el nivel l a remover.
+    \vspace{-0.4cm}
+    \begin{enumerate}[a]\itemsep-1em
+    \item Borro $u_{l+1}$ de los hijos de $u_l$.
+    \item Si $u_l$ es el ultimo: Si $u_{l=1}$ es el unico hijo de $u_l$ paso a la siguiente iteracion, caso contrario
+      voy al paso 3.
+    \item Inicializo w=1 y termina con w=0 (loop en nivel l).
+          \vspace{-0.4cm}
+      \begin{enumerate}[i]\itemsep-1em
+        \item t=$deg(u_l)$, si $w\geq t$ cambio los hijos del vecino derecho a $u_l$ y pongo w=0 y recomputo  tama\~nos.
+        \item Tiro moneda d.
+        \item Transfiero los  primeros w hijos del vecino derecho a $u_l$.
+        \item Actualizo como w=max(0, d-t+w).
+        \item Se recomputan los tama\~nos de los nodos modificados.
+      \end{enumerate}
+  \end{enumerate}
+  \item  Recomputa el camino desde la raiz hasta la hoja insertada.
+  Si la raiz tenia 2 hijos y borre 1, hago a su unico hijo la raiz y borro la raiz original.
+\end{enumerate}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{}
+\begin{frame}
+\frametitle{Calculo de complejidad}
+
+Calculo \texttt{Insertar} y \texttt{Borrar} similares.
+Calculamos el primero.
+Rec: Tiempo esperado O(logn).
+\vspace{-0.2cm}
+
+Parte critica del algoritmo el loop anidado. El loop principal como mucho puede
+correrse h=O(logn) veces.
+\vspace{-0.2cm}
+
+Dem que w Solo toma valores {0,1,2}. Rec: w inicializa con 1 y si $d\neq w$ w=max{0, t+w-d}. $t\in{1,2,3}$ y $d\in{2,3}$
+Trivialmente se comprueba.
+\vspace{-0.2cm}
+
+Lema: en cada iteracion de este loop, hay proba 1/4 de setear w=0 (y asi terminar el loop) dentro de 2 iteraciones.
+\vspace{-0.2cm}
+
+Dem: en cada iteracion $w\in{2,3}$. Si $u_l$ es el ultimo nodo w=0.
+Si no, podemos tener w=2 y con proba 1/2 sacar d=2 y terminar.
+Si tenemos w=1 tenemos dos casos.
+\vspace{-0.3cm}
+\begin{itemize}\itemsep-1em
+  \item t=2: con proba 1/2 tenemos d=3 y entonces w=t+w-d=0, termino.
+  \item t=3: con proba 1/2 tenemos d=2 y actualizamos  w=t+w-d=2, que en la siguiente
+    iteracion seteamos w=0 con probabilidad 1/2.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{}
+\begin{frame}
+\frametitle{Misma distribucion de probabilidad.}
+
+Queremos probar que para toda secuencia $L=L[1]L[2]...L[n]$, y sea $i\leq n$ y b una clave,
+loas siguientes igualidades se cumplem para las distribuciones de probabilidad.
+
+\begin{centering}
+  \texttt{Insertar}(i,b, \texttt{Crear}(L))=\texttt{Crear}(L[1],...,L[i],b,L[i+1],...,L[n])
+\end{centering}
+
+\begin{centering}
+  \texttt{Borrar}(i \texttt{Crear}(L))=\texttt{Crear}(L[1],...,L[i-1],L[i+1],...,L[n])
+\end{centering}
+
+Dem primer caso, segundo caso analogo.
+
+Por un lado en cada iteracion $l$ solo se cambia la topologia de ese nivel y que
+hasta el hijo en cuestion no se modifica su agrupado con el algoritmo de \texttt{Insertar}.
+Los siguientes nodos son modificados de la misma forma que \texttt{Crear} pero con
+monedas diferentes e independientes.
+Esto genera que tengan mismas distribuciones de probabilidad.
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{}
+\begin{frame}
+\frametitle{Ejemplo probabilidades}
+
+Ejemplo con \texttt{Crear}(ABCDE) y \texttt{Insertar}(1, B, \texttt{Crear}(ACDE)).
+
+Para el caso de insertar ya lo hicimos \texttt{Insertar} y nos dio lo siguiente:
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.3]{insertCreateRes.jpg}
+\end{figure}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{}
+\begin{frame}
+\frametitle{Ejemplo probabilidades}
+
+Basta con probar que \texttt{Crear}(ABCDE) tiene las mismas probabilidades.
+
+\begin{itemize}
+  \item Primer caso, d=3 prob 1/2, termina (caso a). \pause
+  \item Segundo caso d=2, prob 1/2, sigue en el siguiente nodo:
+    \begin{itemize}\pause
+      \item d=3, con prob 1/2*1/2=1/4, termina (caso b).\pause
+      \item d=2, prob 1/2*1/2=1/4, termina en ese nivel pero sigue en el proximo:
+        \begin{itemize}\pause
+          \item d=3, prob 1/4*1/2=1/8, termina (caso c).\pause
+          \item d=2, prob 1/4*1/2=1/8, crea un nodo al lado de la raiz. Se crea
+            un nuevo nivel con nueva raiz.
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+\pause
+
+Comprobado!
 
 \end{frame}
 
@@ -459,6 +564,56 @@ w=1 voy a pasarle un hijo, e independiente del d termina en 2ai/ii}
 \section{}
 \begin{frame}
 \frametitle{}
+
+\huge
+\centering
+FIN!
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{}
+\begin{frame}
+\frametitle{Algoritmo insertar completo}
+\small
+\begin{enumerate}\itemsep0em
+  \item Localizo la i-esima hoja e inserto el valor. Sea $u_0,...,u_h$ el camino
+    de la raiz a la nueva hoja.
+  \item Repetimos los siguientes pasos de l=h-1,h-2,...,0. Donde en cada iteracion
+    es de la raiz al nuevo nodo.
+    \vspace{-0.05cm}
+    \begin{enumerate}[a]\itemsep0em
+      \item Si $u_l$ es el ultimo nodo del nivel l:
+        \vspace{-0.05cm}
+        \begin{enumerate}[i]\itemsep0em
+          \item Si $u_l$ tiene grado 2 entonces ir al paso 3.
+          \item Si $u_l$ tiene grado 3, elijo de forma uniforme $d\in{2,3}$ y si
+            $d=4$ ir al paso 3, si no continuar.
+        \end{enumerate}
+      \item Inicializamos la variable w=1 y repetimos los pasos hasta w=0:
+        \vspace{-0.05cm}
+        \begin{enumerate}[i]\itemsep0em
+          \item Sea $u_l'=u_l$ y elegimos de forma uniforme $d\in{2,3}$. d es el grado
+            del nodo que sigue a $u_l'$.
+          \item Si d=w o si $u_l'$ es el ultimo nodo al nivel l, insertamos el nuevo nodo $u_l$
+            a la derecha de $u_l'$, seteamos w=0 y vamos al paso 2(b)v.
+          \item En caso contrario, hacemos $u_l$ el nodo que continua a $u_l'$ en el nivel l y
+            sea t=deg($u_l$) (el que tenia de antes).
+          \item Cambiamos de padre los ultimos $w$ hijos de $u_l'$ a $u_l$ y hacemos $w=max(0, t+w-d)$.
+          \item Recomputamos el tama\~no de los nodos a lo largo del camino de $u_l'$ a $u_l$ no incluido.
+        \end{enumerate}
+    \end{enumerate}
+  \item Si $l\geq$0, recomputamos la informacion de tama/~no de los nodos del camino.
+    En caso contrario aumentamos la altura del arbol en uno creando un nuevo nodo raiz
+    y hacemos de hijos $u_0'$ y el nuevo nodo $u_0$
+\end{enumerate}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{}
+\begin{frame}
+\frametitle{Algoritmo borrar completo}
 \small
 \begin{enumerate}\itemsep0em
   \item Localizo la i-esima hoja e inserto el valor. Sea $u_0,...,u_h$ el camino
@@ -490,85 +645,7 @@ w=1 voy a pasarle un hijo, e independiente del d termina en 2ai/ii}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{}
-\begin{frame}
-\frametitle{}
 
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{}
-\begin{frame}
-\frametitle{}
-
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{}
-\begin{frame}
-\frametitle{}
-
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{}
-\begin{frame}
-\frametitle{}
-
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{}
-\begin{frame}
-\frametitle{}
-
-\huge
-\centering
-FIN!
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}
-\frametitle{Insercion}
-  \begin{enumerate}
-    \item  Busco la i posicion con la info de los nodos e inserto
-  ahi el nodo en i+1.
-  \item Voy nivel por nivel desde el ultimo hacia arriba.
-  En cada uno tengo dos casos.
-  \begin{itemize}
-    \item Ultimo nodo:
-      \begin{itemize}
-        \item as
-      \end{itemize}
-    \item En caso contrario, inicializo una variable w=1 y repito los siguientes pasos hasta que w=0.
-      \begin{itemize}
-        \item
-      \end{itemize}
-  \end{itemize}
-\item Si l$\leq$0,
-\end{enumerate}
-  Tiempo: O(logn)
-
-  The way the nodes up to $u_{l+1}$ are grouped is not changed by Insert.
-  The nodes after $u_{l+1}$ are grouped exactly in the same way as algorithm Create would,
-  but using new coin tosses.
-  This defines the topology of the nodes up to $u_l$.
-  The nodes after $u_l$ are not modified.
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \end{document}
 
