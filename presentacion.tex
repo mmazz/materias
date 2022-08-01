@@ -1,5 +1,5 @@
-%\documentclass[10pt]{beamer}
-\documentclass[10pt,handout]{beamer}
+\documentclass[10pt]{beamer}
+%for(int i=0; i<n; i++){\documentclass[10pt,handout]{beamer}
 \usepackage[spanish]{babel}
 % % \usepackage[backend=biber, style=authoryear-icomp]{biblatex}
 \resetcounteronoverlays{exx}
@@ -86,6 +86,7 @@
 \begin{mdframed}[backgroundcolor=frenchblue!20]
  Veremos paper de Daniele Micciancio: Oblivious Data Structures: Applications to Cryptography
 \end{mdframed}
+\pause
 \begin{itemize}\itemsep-1em
    \item Introducción.
      \vspace{-0.3cm}
@@ -94,13 +95,13 @@
       \item Firma digital.
       \item Problemas de privacidad.
       \item Repaso arboles.
-  \end{itemize}
+  \end{itemize}\pause
 \item Estructura de datos.
      \vspace{-0.3cm}
   \begin{itemize}\itemsep-1em
       \item Nueva estructura de datos.
       \item Algoritmos.
-  \end{itemize}
+  \end{itemize}\pause
   \item Demostración
      \vspace{-0.3cm}
   \begin{itemize}\itemsep-1em
@@ -211,7 +212,7 @@ modificaciones realizadas.
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[scale=0.25]{2-3tree.jpg}
+    \includegraphics[scale=0.20]{2-3tree.jpg}
 \end{figure}
 
 \pause
@@ -270,13 +271,12 @@ Bajo una de las claves del padre a uno de los nodos.
 \begin{frame}
 \frametitle{Oblivious tree}
 
-Micciancio: un árbol 2-3 pero sin perdida de privacidad.
+\textbf{Micciancio}: un árbol 2-3 pero sin perdida de privacidad Manteniendo oda la información de las firmas esta en las hojas.
 
 Modificaciones:
 \begin{itemize}
 \pause
   \item Permite nodos con un único hijo, solo en caso que sea el ultimo nodo de la derecha.
-  \item Toda la información de las firmas esta en las hojas.
 \pause
   \item Deja de ser una estructura determinístico para ser probabilística.
   \item Algoritmos de inserción y borrado aleatorios.
@@ -321,7 +321,7 @@ Los tres algoritmos utilizan una moneda para la aleatoriedad.
 \begin{frame}
 \frametitle{Estructura de datos inadvertidas}
 
-Condición para ser inadvertido:
+\textbf{Condición} para ser inadvertido:
 \pause
 
 \texttt{Insertar}(b,i,\texttt{Crear}($L_1$)) tiene la misma distribución de probabilidad que \texttt{Crear}($L_2$), donde $L_{2}$
@@ -432,7 +432,7 @@ Ambos algoritmos se independizan de las monedas tiradas de las operaciones pasad
 \pause
     \vspace{-0.4cm}
     \begin{enumerate}[a]\itemsep-1em
-    \item Si $u_l$ es el ultimo: Si $deg(u_l)=2$ listo, si $deg(u_l)=3$, se tira moneda $d$, si sale 3 listo. Recalculo los sizes.
+    \item Si $u_l$ es el ultimo: Si $deg(u_l)=2$ listo, si $deg(u_l)=3$, se tira moneda $d$, si sale 3 listo. Recalculo los tamaños.
       Si $deg(u_l)=3$ pero $d=2$ se continua al siguiente caso.
 \pause
     \item Inicializo w=1 y termina con w=0 (loop en nivel l).
@@ -463,19 +463,24 @@ Ejemplo: \texttt{Insertar}(1, B, \texttt{Crear}(ACDE)).
     \begin{figure}[h!]
     \centering
     \includegraphics[scale=0.27]{insertCreate.jpg}
-\end{figure}}
+\end{figure}
+\begin{mdframed}[backgroundcolor=frenchblue!20]
+Sigamos las probabilidades de cada caso (importante para despues!)
+\end{mdframed}}
 \pause
   \only<2>{\centering primer caso
     \begin{figure}[h!]
     \centering
-    \includegraphics[scale=0.32]{insertCreateB0.jpg}
+    \includegraphics[scale=0.3]{insertCreateB0.jpg}
 \end{figure}\centering
-w=1 voy a pasarle un hijo, e independiente del d termina en 2ai/ii}
+}
 \pause
   \only<3>{\begin{figure}[h!]
     \centering
     \includegraphics[scale=0.37]{insertCreateB1.jpg}
-\end{figure}}
+\end{figure}
+w=1 voy a pasarle un hijo, e independiente del d termina en 2ai/ii}
+
   \pause
   \only<4>{\centering segundo caso
     \begin{figure}[h!]
@@ -499,11 +504,11 @@ w=1 voy a pasarle un hijo, e independiente del d termina en 2ai/ii}
   \only<7>{\centering Paso al nivel l-1
     \begin{figure}[h!]
     \centering
-    \includegraphics[scale=0.37]{insertCreateA3.jpg}
+    \includegraphics[scale=0.3]{insertCreateA3.jpg}
 \end{figure}}
   \only<8>{\begin{figure}[h!]
     \centering
-    \includegraphics[scale=0.37]{insertCreateA4.jpg}
+    \includegraphics[scale=0.3]{insertCreateA4.jpg}
 \end{figure}}
 
 
@@ -529,7 +534,6 @@ w=1 voy a pasarle un hijo, e independiente del d termina en 2ai/ii}
 \frametitle{Algoritmo Borrar}
 
  \begin{enumerate}\itemsep-1em
-\pause
   \item Loop en l: voy de l=h-1 hasta l=0.
     Donde h es la altura del árbol y $u_l$ el nodo del camino raíz al nodo en el nivel l a remover.
     \vspace{-0.4cm}
@@ -537,7 +541,7 @@ w=1 voy a pasarle un hijo, e independiente del d termina en 2ai/ii}
     \item Borro $u_{l+1}$ de los hijos de $u_l$.
 \pause
     \item Si $u_l$ es el ultimo: Si $u_{l+1}$ es el único hijo de $u_l$ paso a la siguiente iteracion, caso contrario
-      voy al paso 3.
+      voy al paso 2.
     \item Inicializo w=1 y termina con w=0 (loop en nivel l).
           \vspace{-0.4cm}
       \begin{enumerate}[i]\itemsep-1em
@@ -574,9 +578,12 @@ Tiempo esperado  en peor caso O(logn).
 Rec: $w$ inicializa con 1 y si $d\neq w$ $\to$ w=max\{0, t+w-d\}.
 Ademas $t\in\{1,2,3\}$ y $d\in\{2,3\}$
 
+\pause
 Dem: inducción $w\in \{0,1,2\}$
+\pause
 
 Mínimo: $t+w-d$= 1 + 1 - 3 = -1 $\rightarrow max(0, t+w-d)=0$
+\pause
 
 Máximo ($d\neq w$): t+w-d = 3+2-3= 3+1-2 = 2.
 
@@ -587,6 +594,7 @@ Máximo ($d\neq w$): t+w-d = 3+2-3= 3+1-2 = 2.
 \frametitle{Calculo de complejidad}
 \textbf{Lema 2}: en cada iteración del loop anidado, hay proba 1/4 de setear $w=0$ (y así terminar el loop) dentro de 2 iteraciones.
 \vspace{-0.2cm}
+\pause
 
 Dem: por lema 1 sabemos que en cada iteración $w\in\{2,3\}$.
 Si $u_l$ es el ultimo nodo $w=0$.
@@ -611,23 +619,25 @@ Si tenemos $w=1$ tenemos dos casos:
 
 
 
-Cada nodo es visitado a lo sumo dos veces.
+Cada nodo es visitado a lo sumo dos veces.\pause
 \begin{itemize}
-  \item  O al buscar donde insertarlo y luego al recomputar su tama\~no.
-  \item O al pasar por ser vecino y luego recomputar su tama\~no.
+  \item  O pasar al buscar donde insertar la hoja y luego al recomputar el tama\~no de los nodos del camino .
+  \item O al pasar por ser vecino y luego re computar su dama\~no.
 \end{itemize}
 
-
+\pause
 Entonces el tiempo del algoritmo será proporcional a la cantidad de nodos visitados.
 
-Sea $T_l$ la cantidad de nodos visitados en el nivel $l$.
-Tenemos dos grupos, los nodos  visitados en la iteración anidada y los nodos
-visitados en el loop principal.
+\pause
+Sea $T_l$ la cantidad de nodos visitados hasta el nivel $l$.
+Tenemos dos grupos, los nodos  visitados en las iteración $h-1$, $h-2$ hasta $l+1$ y los nodos
+visitados en la iteración principal $l$.
 
+\pause
 Sea $X_l$ la cantidad de nodos visitados en la iteración $l$.
 Por el \textbf{lema 2} en cada nivel la cantidad de nodos será una distribución geométrica con parámetro 1/4 que
 depende solo de las monedas tiradas en cada iteración.
-Y como mucho sera dos veces.
+Y como mucho será dos veces.
 Es decir acotado por $2X_l=2 \frac{1}{4}(1-\frac{1}{4})^x$.
 
 \end{frame}
@@ -636,24 +646,47 @@ Es decir acotado por $2X_l=2 \frac{1}{4}(1-\frac{1}{4})^x$.
 \begin{frame}
 \frametitle{Calculo de complejidad}
 
-El numero de nodos visitados durante la iteración previa puede ser acotado por arriba como $T_{l+1}/2 +1$.
-Ya que por propiedad del árbol 2-3 (o Oblivious) la máxima cantidad de nodos del nivel $l$ en relacion
-al nivel $l+1$ es la mitad.
-\begin{equation}
-  Time = \sum_{i=1}^h T_i\leq \sum_{i=1}^h (T_{l+1}/2 +1 + 2X_i)
-\end{equation}
-paper: Si restamos de ambos lados Time/2 y multiplicamos por dos llegamos a la cota superior (?):
-\begin{equation}
+El numero de nodos visitados durante las iteraciones previas pueden ser acotado por arriba como $T_{l+1}/2 +1$.
+Ya que los únicos  nodos visitados durante la iteración $j>l$ son ancestros de los nodos visitados en $j$.
+\pause
+\begin{equation*}
+  Time = \sum_{i=1}^h T_i\leq \sum_{i=1}^h (T_{i+1}/2 +1 + 2X_i)
+\end{equation*}
+Trabajamos sobre el termino $T_{l+1}/2$
+\begin{equation*}
+  \sum_{i=1}^h T_{i+1}/2 = \sum_{j=2}^h T_j/2
+\end{equation*}
+Si a este termino le sumamos $T_{j=1}/2$
+\begin{equation*}
+  \sum_{j=2}^h T_j/2 + T_1/2 =  \sum_{j=1}^h T_{i+1}/2 = Time/2
+\end{equation*}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Calculo de complejidad}
+Si restamos de ambos lados Time/2:
+\begin{equation*}
+  \begin{split}
+    Time - \frac{Time}{2} &= \frac{Time}{2} \leq \sum_{i=1}^h (T_{i+1}/2 +1 + 2X_i) -  \sum_{j=2}^h T_j/2 + T_1/2 \\
+                          &= \sum_{i=1}^h (1 + 2X_i) - T_1/2 \leq  \sum_{i=1}^h (1 + 2X_i) \leq h + 2X
+  \end{split}
+\end{equation*}
+Si multiplicamos por 2 a ambos lados.
+\pause
+\begin{equation*}
   Time \leq 2h + 4X
-\end{equation}
-Mi explicación: $T_{l+1}\leq X_i \rightarrow  Time \leq \sum_{i=1}^h (2 + 4X_i) = 2h + 4X$
-
+\end{equation*}
+\pause
 Como el valor esperado de una distribución geométrica con parámetro p=1/4, es 1/p=4.
-
+\pause
 \begin{mdframed}[backgroundcolor=frenchblue!20]
   Valor esperado en peor caso: Time $\leq 2h+4(4h) \propto h=logn$
 \end{mdframed}
+
 \end{frame}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
