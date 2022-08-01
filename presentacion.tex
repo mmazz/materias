@@ -59,7 +59,7 @@
 \setbeamertemplate{navigation symbols}{}
 %\setbeameroption{show notes}
 \setbeameroption{hide notes}
-
+\renewcommand{\CancelColor}{\color{red}}
 
 \usepackage{hyperref}
 
@@ -224,19 +224,21 @@ En caso que no lo de llamaremos a esa propiedad \texttt{obliviousness} (\textbf{
 
 \begin{frame}
 \frametitle{Solución privacidad}
-
 Buscamos un algoritmo de firma incremental privada de misma complejidad (O(long)).
-
-El problema de privacidad se reduce únicamente a un problema de estructura de datos.
+El problema de privacidad se reduce únicamente a un \textbf{problema de estructura de datos}.
 
 \pause
 Es posible un árbol de búsqueda con algoritmos eficientes de inserción y borrado tal que el
 resultado final de aplicar una secuencia de operaciones no de información sobre la particular
 secuencias mas que el la secuencia de hojas finales?
-
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.2]{conc.jpg}
+\end{figure}
 \pause
+\begin{mdframed}[backgroundcolor=frenchblue!20]
 \textbf{Solución}: Estructuras de datos inadvertidas (Oblivious) $\to$ \textbf{Oblivious trees}.
-
+\end{mdframed}
 \end{frame}
 
 
@@ -592,11 +594,11 @@ Máximo ($d\neq w$): t+w-d = 3+2-3= 3+1-2 = 2.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
 \frametitle{Calculo de complejidad}
-\textbf{Lema 2}: en cada iteración del loop anidado, hay proba 1/4 de setear $w=0$ (y así terminar el loop) dentro de 2 iteraciones.
+\textbf{Lema 2}: en cada iteración del loop anidado, hay proba 1/4 de actualizar $w=0$ (y así terminar el loop) dentro de 2 iteraciones.
 \vspace{-0.2cm}
 \pause
 
-Dem: por lema 1 sabemos que en cada iteración $w\in\{2,3\}$.
+Dem: por lema 1 sabemos que en cada iteración $w\in\{1,2\}$.
 Si $u_l$ es el ultimo nodo $w=0$.
 Si no, podemos tener $w=2$ y con proba 1/2 sacar d=2 y terminar.
 
@@ -606,7 +608,7 @@ Si tenemos $w=1$ tenemos dos casos:
 \begin{itemize}\itemsep-1em
   \item t=2: con proba 1/2 tenemos d=3 y entonces $w=t+w-d=0$, termino.
 \pause
-  \item t=3: con proba 1/2 tenemos d=2 y actualizamos  $w=t+w-d=2=w$, que en la siguiente
+  \item t=3: con proba 1/2 tenemos d=2 y actualizamos  $w=t+w-d=2$, que en la siguiente
     iteración seteamos $w=0$ con probabilidad 1/2. $\to$ proba 1/4 de terminar.
 \end{itemize}
 
@@ -621,8 +623,8 @@ Si tenemos $w=1$ tenemos dos casos:
 
 Cada nodo es visitado a lo sumo dos veces.\pause
 \begin{itemize}
-  \item  O pasar al buscar donde insertar la hoja y luego al recomputar el tama\~no de los nodos del camino .
-  \item O al pasar por ser vecino y luego re computar su dama\~no.
+  \item  O pasa al buscar donde insertar la hoja y luego al recomputar el tama\~no de los nodos del camino .
+  \item O al pasar por ser vecino y luego re computar su tama\~no.
 \end{itemize}
 
 \pause
@@ -647,18 +649,20 @@ Es decir acotado por $2X_l=2 \frac{1}{4}(1-\frac{1}{4})^x$.
 \frametitle{Calculo de complejidad}
 
 El numero de nodos visitados durante las iteraciones previas pueden ser acotado por arriba como $T_{l+1}/2 +1$.
-Ya que los únicos  nodos visitados durante la iteración $j>l$ son ancestros de los nodos visitados en $j$.
+Ya que los únicos  nodos en nivel $l$ visitados durante la iteración $j>l$ son ancestros de los nodos visitados en $j$.
 \pause
 \begin{equation*}
   Time = \sum_{i=1}^h T_i\leq \sum_{i=1}^h (T_{i+1}/2 +1 + 2X_i)
 \end{equation*}
 Trabajamos sobre el termino $T_{l+1}/2$
+\pause
 \begin{equation*}
   \sum_{i=1}^h T_{i+1}/2 = \sum_{j=2}^h T_j/2
 \end{equation*}
 Si a este termino le sumamos $T_{j=1}/2$
+\pause
 \begin{equation*}
-  \sum_{j=2}^h T_j/2 + T_1/2 =  \sum_{j=1}^h T_{i+1}/2 = Time/2
+  \sum_{j=2}^h T_j/2 + T_1/2 =  \sum_{j=1}^h T_{j}/2 = Time/2
 \end{equation*}
 
 \end{frame}
@@ -669,20 +673,21 @@ Si a este termino le sumamos $T_{j=1}/2$
 Si restamos de ambos lados Time/2:
 \begin{equation*}
   \begin{split}
-    Time - \frac{Time}{2} &= \frac{Time}{2} \leq \sum_{i=1}^h (T_{i+1}/2 +1 + 2X_i) -  \sum_{j=2}^h T_j/2 + T_1/2 \\
-                          &= \sum_{i=1}^h (1 + 2X_i) - T_1/2 \leq  \sum_{i=1}^h (1 + 2X_i) \leq h + 2X
+  Time - \frac{Time}{2} &= \frac{Time}{2} \leq \sum_{i=1}^h (\frac{T_{i+1}}{2} +1 + 2X_i) -  \sum_{j=2}^h \frac{T_j}{2} + \frac{T_1}{2} \\
+                        &=\sum_{i=1}^h (\cancel{\frac{T_{i+1}}{2}}+1 + 2X_i) - \sum_{i=1}^h  \cancel{\frac{T_{i+1}}{2}}  + \frac{T_1}{2}   \\
+                          &=  \sum_{i=1}^h (1 + 2X_i) -  \frac{T_1}{2}\leq  \sum_{i=1}^h (1 + 2X_i) \leq h + 2X
   \end{split}
 \end{equation*}
 Si multiplicamos por 2 a ambos lados.
 \pause
 \begin{equation*}
-  Time \leq 2h + 4X
+  \frac{Time}{2} \leq h + 2X \rightarrow Time \leq 2h + 4X
 \end{equation*}
 \pause
-Como el valor esperado de una distribución geométrica con parámetro p=1/4, es 1/p=4.
+Como el valor esperado de una distribución geométrica con parámetro $p=\frac{1}{4}$, es $\frac{1}{p}=4$.
 \pause
 \begin{mdframed}[backgroundcolor=frenchblue!20]
-  Valor esperado en peor caso: Time $\leq 2h+4(4h) \propto h=logn$
+  Valor esperado en peor caso: Time $\leq 2h+ 4\sum^h 4 = 2h+4(4h) \propto h=logn$
 \end{mdframed}
 
 \end{frame}
@@ -702,7 +707,7 @@ las siguientes igualdades se cumplen para las distribuciones de probabilidad.
 \end{centering}
 
 \begin{centering}
-  \texttt{Borrar}(i \texttt{Crear}(L))=\texttt{Crear}(L[1],...,L[i-1],L[i+1],...,L[n])
+  \texttt{Borrar}(i, \texttt{Crear}(L))=\texttt{Crear}(L[1],...,L[i-1],L[i+1],...,L[n])
 \end{centering}
 
 \pause
@@ -741,7 +746,7 @@ Basta con probar que \texttt{Crear}(ABCDE) tiene las mismas probabilidades.
 
 \begin{itemize}
   \item Primer caso, d=3 prob 1/2, termina (caso a). \pause
-  \item Segundo caso d=2, prob 1/2, sigue en el siguiente nodo:
+  \item Para los siguientes casos d=2, prob 1/2, sigue en el siguiente nodo:
 \pause
     \begin{itemize}\pause
       \item d=3, con prob 1/2*1/2=1/4, termina (caso b).\pause
@@ -756,25 +761,25 @@ Basta con probar que \texttt{Crear}(ABCDE) tiene las mismas probabilidades.
 \end{itemize}
 
 \pause
-
-Comprobado!
-
+\begin{mdframed}[backgroundcolor=frenchblue!20]
+  \centering
+  Mismas Probabilidades!
+\end{mdframed}
 \end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Conclusiones}
 \begin{frame}
 \frametitle{Conclusiones}
+Entonces que vimos?
+\pause
 \begin{itemize}
-  \item Árbol de búsqueda balanceado aleatorio.
-  \item Algoritmos de edición en O(logn).
+  \item Se mostró un árbol de búsqueda balanceado aleatorio.
+  \item Tiene algoritmos de edición en tiempo esperado O(logn) en peor caso.\pause
+  \item Es inadvertido.
   \item Permite privacidad sin costo extra.
 \end{itemize}
-\begin{figure}[h!]
-    \centering
-    \includegraphics[scale=0.3]{conc.jpg}
-\end{figure}
-
 
 \end{frame}
 
