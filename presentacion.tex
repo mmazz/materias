@@ -242,30 +242,6 @@ secuencias mas que el la secuencia de hojas finales?
 \end{frame}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-\frametitle{2-3 tree}
-
-Arboles 2-3 es un árbol B de grado 3.
-\begin{itemize}
-  \item Nodos con 2 hijos (alias 2-nodes) con única clave.
-  \item Nodos con 3 hijos (alias 3-nodes) con dos claves.
-\end{itemize}
-
-\pause
-\textbf{Inserción}: Busco el lugar en orden para la nueva hoja. Si el nodo esta lleno, hago una division.
-Ordeno los valores y el del medio sube al nodo padre (split) y los extremos se separan en nuevos nodos.
-Se realiza de forma recursiva en caso de necesitarse.
-Caso contrario lo agrego en orden.
-
-\pause
-\textbf{Borrado}: Si el valor esta en un nodo interno: reemplazo el valor que quiero borrar por su
-successor en orden y borro.
-Si es una hoja lo borro. Pero si el padre tiene 2 claves y tenia 3 hijos, al quedar con dos se rompe el invariante.
-Bajo una de las claves del padre a uno de los nodos.
-\end{frame}
-
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -787,7 +763,7 @@ Entonces que vimos?
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{}
-\begin{frame}
+\begin{frame}[noframenumbering]
 \frametitle{}
 
 \huge
@@ -880,10 +856,8 @@ Un mero repaso:
     \column{0.5\textwidth}
     Árbol auto balanceado de búsqueda.
     \begin{itemize}
-\pause
        \item Balanceado: Permite búsquedas en peor caso de O(long).
        \item Búsqueda: Mantiene orden dentro del árbol.
-\pause
        \item Utilización: Reducir accesos al disco, (arboles grandes que no entran en memoria principal).
        \item Arboles B de grado M
     \end{itemize}
@@ -891,11 +865,9 @@ Un mero repaso:
     \column{0.5\textwidth}
     Árbol B de grado M.
         \begin{itemize}
-\pause
           \item Cada noto tiene como Máximo M hijos.
           \item Un nodo que no sea hoja con k hijos contiene k-1 claves.
           \item La raíz tiene como mínimo 2 hijos a menos que sea hoja.
-\pause
           \item Todo nodo que no sea ni raíz ni hoja tiene al menos M/2 hijos.
           \item Todas las hojas están al mismo nivel.
           \item Las claves están ordenadas en cada nodo.
@@ -903,6 +875,27 @@ Un mero repaso:
 \end{columns}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[noframenumbering]
+\frametitle{2-3 tree}
+
+Arboles 2-3 es un árbol B de grado 3.
+\begin{itemize}
+  \item Nodos con 2 hijos (alias 2-nodes) con única clave.
+  \item Nodos con 3 hijos (alias 3-nodes) con dos claves.
+\end{itemize}
+
+\textbf{Inserción}: Busco el lugar en orden para la nueva hoja. Si el nodo esta lleno, hago una division.
+Ordeno los valores y el del medio sube al nodo padre (split) y los extremos se separan en nuevos nodos.
+Se realiza de forma recursiva en caso de necesitarse.
+Caso contrario lo agrego en orden.
+
+\textbf{Borrado}: Si el valor esta en un nodo interno: reemplazo el valor que quiero borrar por su
+successor en orden y borro.
+Si es una hoja lo borro. Pero si el padre tiene 2 claves y tenia 3 hijos, al quedar con dos se rompe el invariante.
+Bajo una de las claves del padre a uno de los nodos.
+\end{frame}
+
+
 
 
 \end{document}
