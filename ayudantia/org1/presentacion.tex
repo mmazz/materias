@@ -114,10 +114,10 @@ Circuitos \textbf{Secuenciales}: La salida esta determinada por la entrada y por
 del circuito.
 \begin{columns}
     \column{0.5\textwidth}
+    \pause
 
 Estos los podemos pensar como un bloque combinacional y un bloque con memoria.
 
-\pause
 Donde E es la entrada S es la salida y  Q$_n$ el estado de la memoria en tiempo $n$.
     \column{0.5\textwidth}
         \begin{figure}[h!]
@@ -186,10 +186,9 @@ Se\~nal de clock!
 
 \begin{frame}
 \frametitle{Flip-Flop JK}
-\only<1,2,3>{Flip-Flop JK resuelve el problema del input R=1 y S=1 del RS.
+\only<1,2,3>{Flip-Flop JK resuelve el problema del input R=1 y S=1 del RS negando la salida.
 
 \pause
-Ademas aprovecha el delay para generar cambios solo en los flancos de la se\~nal de clock.
 
 Que pasa cuando en el JK ambas entradas son 1?
 \pause
@@ -200,9 +199,8 @@ Que pasa cuando en el JK ambas entradas son 1?
 Esto nos sirve?
 }
 \only<4>{
-  Flip-Flop JK resuelve el problema del input R=1 y S=1 del RS.
+  Flip-Flop JK resuelve el problema del input R=1 y S=1 del RS negando la salida.
 
-Ademas aprovecha el delay para generar cambios solo en los flancos de la se\~nal de clock.
 
 Que pasa cuando en el JK ambas entradas son 1?\begin{figure}[h!]
     \centering
@@ -216,16 +214,16 @@ Esto nos sirve? Se mueve dentro de un mismo pulso de clock...
 \begin{frame}
 \frametitle{Flip-Flop JK}
 
-Solución: \textbf{detector de pulsos}. Miro solo los flancos.
+\textbf{Solución}: Aprovecha el delay para generar cambios solo en los flancos de la se\~nal de clock. \textbf{Detector de pulsos}. Miro solo los flancos.
+
 
 Circuito AND, único input duplicado,  negando una de las entradas.
+\vspace{-0.2cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[scale=0.2]{delay.png}
 \end{figure}
-
 \pause
-
 \begin{figure}[h!]
     \centering
     \includegraphics[scale=0.2]{flipJK.png}
@@ -281,7 +279,7 @@ que siga los siguiente estados en donde cada cambio se produzca al apretar un pu
 En principio.... ? Como arrancamos?
 \pause
 
-\begin{mdframed}[backgroundcolor=frenchblue!20]
+\begin{mdframed}[backgroundcolor=frenchblue!20]\centering
   TABLAS DE VERDAD!
 \end{mdframed}
 \pause
@@ -453,7 +451,7 @@ contador!}
               Como empezamos...
 
             \pause
-            \textbf{Tabla de verdad!}
+            \textbf{Tabla de verdad!} de lo que queremos que haga.
           \column{0.5\textwidth}
           \pause
               \begin{figure}[h!]
@@ -479,7 +477,8 @@ contador!}
               Ya tenemos la tabla de verdad de este circuito, como lo usamos para lograr lo que queremos.
               Como empezamos...
 
-            \textbf{Tabla de verdad!}
+            \textbf{Tabla de verdad!} de lo que queremos que haga.
+
           \column{0.5\textwidth}
               \begin{figure}[h!]
                   \centering
@@ -502,7 +501,7 @@ contador!}
               Ya tenemos la tabla de verdad de este circuito, como lo usamos para lograr lo que queremos.
               Como empezamos...
 
-            \textbf{Tabla de verdad!}
+            \textbf{Tabla de verdad!} de lo que queremos que haga.
           \column{0.5\textwidth}
               \begin{figure}[h!]
                   \centering
@@ -526,7 +525,7 @@ contador!}
               Ya tenemos la tabla de verdad de este circuito, como lo usamos para lograr lo que queremos.
               Como empezamos...
 
-            \textbf{Tabla de verdad!}
+            \textbf{Tabla de verdad!} de lo que queremos que haga.
           \column{0.5\textwidth}
               \begin{figure}[h!]
                   \centering
@@ -549,7 +548,7 @@ contador!}
               Ya tenemos la tabla de verdad de este circuito, como lo usamos para lograr lo que queremos.
               Como empezamos...
 
-            \textbf{Tabla de verdad!}
+            \textbf{Tabla de verdad!} de lo que queremos que haga.
           \column{0.5\textwidth}
               \begin{figure}[h!]
                   \centering
@@ -624,16 +623,48 @@ Suma de producto y producto de suma!
 
 \begin{frame}
 \frametitle{Solución parte b}
+\begin{mdframed}[backgroundcolor=frenchblue!20]
+  \begin{center}
+  Separo en los casos $o_0$ y $o_1$:
+  \end{center}
+\end{mdframed}
+\pause
 \begin{columns}
     \column{0.5\textwidth}
         \begin{table}[h!]
-            \begin{tabular}{|c|c|c|c|c|}
+            \begin{tabular}{|c|c|c|c|}
             \hline
-            Q$_1$ & Q$_0$ & $\to$ & o$_1$ & o$_0$ \\ \hline
-            0        & 0        & $\to$ & 0          & 0          \\ \hline
-            0        & 1        &$\to$  & 0          & 1          \\ \hline
-            1        & 0        &$\to$  & 1          & 1          \\ \hline
-            1        & 1        &$\to$  & 0          & 1          \\ \hline
+            Q$_1$ & Q$_0$ & $\to$ &  o$_0$ \\ \hline
+            0        & 0        & $\to$           & 0          \\ \hline
+            0        & 1        &$\to$            & 1          \\ \hline
+            1        & 0        &$\to$            & 1          \\ \hline
+            1        & 1        &$\to$            & 1          \\ \hline
+            \end{tabular}
+            \end{table}
+
+    \column{0.5\textwidth}
+    \pause
+
+    $o_0$ tiene un único 0 $\to$ producto de sumas.
+\pause
+
+  Que suma de $Q_1=0$ con $Q_0=0$ me da 0?
+\pause
+
+    $o_0$ = Q$_1$ + Q$_0$ \pause $\to$ OR
+\end{columns}
+\pause
+\vspace{0.5cm}
+\begin{columns}
+    \column{0.5\textwidth}
+        \begin{table}[h!]
+            \begin{tabular}{|c|c|c|c|}
+            \hline
+            Q$_1$ & Q$_0$ & $\to$ & o$_1$  \\ \hline
+            0        & 0        & $\to$ & 0                  \\ \hline
+            0        & 1        &$\to$  & 0                  \\ \hline
+            1        & 0        &$\to$  & 1                  \\ \hline
+            1        & 1        &$\to$  & 0                  \\ \hline
             \end{tabular}
             \end{table}
 
@@ -645,29 +676,38 @@ Suma de producto y producto de suma!
     Que producto de $Q_1=1$ con $Q_0=0$ me da 1?
     \pause
 
-    $o_1$ = Q$_1$ * $\overline{\text{Q}_0}$  \pause $\to$ OR
-    \vspace{1cm}
-    \pause
+    $o_1$ = Q$_1$ * $\overline{\text{Q}_0}$  \pause $\to$ AND con  Q$_0$ negada
 
-    $o_0$ tiene un único 0 $\to$ producto de sumas.
-\pause
-
-  Que suma de $Q_1=0$ con $Q_0=0$ me da 0?
-\pause
-
-    $o_0$ = Q$_1$ + Q$_0$ \pause $\to$ AND con  Q$_0$ negada
 
 \end{columns}
+
 \end{frame}
 
 \begin{frame}
 \frametitle{Solución parte b}
 
-Nos quedaría:
+\only<1>{Como nos queda?
 \begin{figure}[h!]
     \centering
     \includegraphics[scale=0.3]{circuito0.png}
-\end{figure}
+\end{figure}}
+\only<2>{Como nos queda? Agregamos a la salida $o_0$ el OR
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.3]{circuito1.png}
+\end{figure}}
+\only<3>{Como nos queda? Agregamos a la salida del $o_1$ el AND
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.3]{circuito2.png}
+\end{figure}}
+\only<4>{Como nos queda? Negamos la entrada al AND de $Q_0$.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.3]{circuito3.png}
+\end{figure}}
+
+
 \end{frame}
 \begin{frame}
 \frametitle{Conclusion}
@@ -679,4 +719,20 @@ Nos quedaría:
 \end{itemize}
 
 \end{frame}
+
+\begin{frame}
+\frametitle{Conclusion}
+\huge
+\centering
+
+FIN!
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.15]{homero.png}
+\end{figure}
+Preguntas?
+
+\end{frame}
+
 \end{document}
