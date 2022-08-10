@@ -87,6 +87,7 @@
 \begin{frame}
 \frametitle{Introducción}
 \begin{mdframed}[backgroundcolor=frenchblue!20]
+  \centering
   Tema del día: Flip-Flops JK
 \end{mdframed}
 \pause
@@ -118,7 +119,7 @@ del circuito.
 
 Estos los podemos pensar como un bloque combinacional y un bloque con memoria.
 
-Donde E es la entrada S es la salida y  Q$_n$ el estado de la memoria en tiempo $n$.
+Donde E es la entrada S es la salida y  Q$_t$ el estado de la memoria en tiempo $t$.
     \column{0.5\textwidth}
         \begin{figure}[h!]
     \centering
@@ -186,7 +187,7 @@ Se\~nal de clock!
 
 \begin{frame}
 \frametitle{Flip-Flop JK}
-\only<1,2,3>{Flip-Flop JK resuelve el problema del input R=1 y S=1 del RS negando la salida.
+\only<1,2,3>{Flip-Flop JK resuelve el problema del input R=1 y S=1 del RS $\to$ Devuelve $\overline{Q}_t$.
 
 \pause
 
@@ -194,7 +195,7 @@ Que pasa cuando en el JK ambas entradas son 1?
 \pause
 \begin{figure}[h!]
     \centering
-    \includegraphics[scale=0.2]{delay2.png}
+    \includegraphics[scale=0.2]{delay1.png}
 \end{figure}
 Esto nos sirve?
 }
@@ -204,11 +205,20 @@ Esto nos sirve?
 
 Que pasa cuando en el JK ambas entradas son 1?\begin{figure}[h!]
     \centering
+    \includegraphics[scale=0.2]{delay2.png}
+\end{figure}
+Esto nos sirve? Se mueve dentro de un mismo pulso de clock...
+}
+\only<5>{
+  Flip-Flop JK resuelve el problema del input R=1 y S=1 del RS negando la salida.
+
+
+Que pasa cuando en el JK ambas entradas son 1?\begin{figure}[h!]
+    \centering
     \includegraphics[scale=0.2]{delay3.png}
 \end{figure}
 Esto nos sirve? Se mueve dentro de un mismo pulso de clock...
 }
-
 \end{frame}
 
 \begin{frame}
