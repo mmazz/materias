@@ -149,14 +149,27 @@ El camino que tomó el doctorado  no me convenció $\to$ cambio de planes.
 \begin{frame}
 \frametitle{Cambio Doctorado}
 
+\begin{columns}
+    \column{0.5\textwidth}
+        Director: Esteban Mocskos UBA
+        \vspace{0.3cm}
 
-Director: Esteban Mocskos UBA
+        Codirector: Augusto Vega IBM
 
-Codirector: Augusto Vega IBM
+        \vspace{0.3cm}
+        Fully Homomorphic Encryption (FHE).
 
-Fully Homomorphic Encryption (FHE).
+        \vspace{0.3cm}
+        Operar \textbf{directamente} con datos encriptados (sin necesidad de desencriptar).
 
-Operar \textbf{directamente} con datos encriptados (sin necesidad de desencriptar).
+
+    \column{0.5\textwidth}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.19]{mult.jpg}
+\end{figure}
+\end{columns}
+
 
 Ej: Lograr procesar remotamente con machine learning sin revelar los datos.
 
@@ -169,19 +182,48 @@ Actualidad: muy lento para uso real.
 \end{mdframed}
 
 \end{frame}
+
+
+%Complejidad de FHE,
+
+%Por que se requiere aceleracion por hardware
+
+%Costos computacionales
+
+%Limites
+
+
 \begin{frame}
 \frametitle{FHE}
-Complejidad de FHE,
+Requierimientos FHE:
+\begin{itemize}
+  \item Homomorfismo en la suma y multiplicación.
+  \item Ilimitada cantidad de operaciones.
+  \item Tiempos razonables
+\end{itemize}
 
-Por que se requiere aceleracion por hardware
+Problemas:
+\begin{itemize}
+  \item No todo esquema es homomorfico en ambas operaciones. Ej RSA permite solo multiplicación (Partially HE).
+  \item La mayoría de esquemas utilizan \texttt{Learning With Errors} (LWE). Aumentando su error por cada operación.
+  \item Los esquemas actuales tienen un costo muy grande por cada operación: orden del segundo.
+\end{itemize}
 
-Costos computacionales
 
-Limites
+
 
 \end{frame}
 
+\begin{frame}
+\frametitle{Boostraping}
+Gentry $\to$ \texttt{Boostraping}: reducir el error luego de una operación.
 
+El boostraping es uno de los principales cuellos de botella de FHE.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.3]{multNoise.jpg}
+\end{figure}
+\end{frame}
 \begin{frame}
 \frametitle{}
   \begin{figure}[h!]
