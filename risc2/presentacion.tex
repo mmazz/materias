@@ -109,7 +109,7 @@
 
 
 \begin{frame}
-\frametitle{Origenes y tesis}
+\frametitle{Orígenes y tesis}
 
  Durante la Lic Física me acerqué a la computación (materias optativas).
 \begin{columns}
@@ -196,44 +196,35 @@ Actualidad: ordenes de magnitud lento para uso real.
 %Limites
 
 
+
+
 \begin{frame}
 \frametitle{FHE}
-Requierimientos y problemas FHE:
-    \vspace{-0.3cm}
+\begin{columns}
+    \column{0.6\textwidth}
+    Requierimientos y problemas FHE:
 \begin{itemize}
   \item[\textcolor{frenchblue}{\textbullet}] Homomorfismo en la suma y multiplicación.
-    \vspace{-0.3cm}
     \begin{itemize}
-      \item[\textcolor{red}{\textbullet}]  No todo esquema es homomorfico en ambas operaciones. Ej RSA permite solo multiplicación (Partially HE).
+      \item[\textcolor{red}{\textbullet}]  No todo esquema es homomorfico en ambas operaciones.
     \end{itemize}
-    \vspace{-0.3cm}
   \item[\textcolor{frenchblue}{\textbullet}] Ilimitada cantidad de operaciones.
-    \vspace{-0.3cm}
     \begin{itemize}
       \item[\textcolor{red}{\textbullet}]  La mayoría de esquemas utilizan \texttt{Learning With Errors} (LWE). Aumentando su error por cada operación.
     \end{itemize}
-    \vspace{-0.3cm}
   \item[\textcolor{frenchblue}{\textbullet}] Tiempos razonables
-    \vspace{-0.3cm}
     \begin{itemize}
       \item[\textcolor{red}{\textbullet}]  Los esquemas actuales tienen un costo muy grande por cada operación: orden del segundo.
     \end{itemize}
 \end{itemize}
-
-%Los criptogramas suelen ser cientos o miles de veces mayor que los datos originales.
-\end{frame}
-
-\begin{frame}
-\frametitle{Ruido}
-\begin{columns}
-    \column{0.5\textwidth}
-
-    \column{0.5\textwidth}
+    \column{0.4\textwidth}
         \begin{figure}[h!]
             \centering
-            \includegraphics[scale=0.25]{multNoise.jpg}
+            \includegraphics[scale=0.2]{multNoise.jpg}
         \end{figure}
+
 \end{columns}
+        Cada operación homomórfica es $10^3 \sim 10^6$ veces más lento que sin  encriptar.
 
 
 \end{frame}
@@ -243,24 +234,38 @@ Requierimientos y problemas FHE:
 \frametitle{Bootstrapping}
 Gentry (2009) $\to$ primer  esquema FHE mediante \texttt{Bootstrapping}: reducir el error luego de una operación.
 
-Permite tener cualquier cantidad de operaciones.
+Actualiza el cifrado produciendo un nuevo cifrado del mismo mensaje pero con menor ruido.
 
-Operacion muy costosa: principal cuellos de botella de FHE.
+Descifrar homomorficamente: se vuelve a encriptar utilizando como clave la clave secreta encriptada.
 
-Para reducir su uso $\to$ multiples tecnicas: cambio de clave.
+Operación muy costosa: principal cuellos de botella de FHE.
+
 
 
 \begin{mdframed}[backgroundcolor=frenchblue!20]
-  Bootstrapping y cambios de clave representan el 95\% del esferuzo computacion y movimientos de data.
+  Bootstrapping, más otros métodos para reducir ruido, representan el 95\% del esfuerzo computación y movimientos de data.
 \end{mdframed}
 \end{frame}
 
-
 \begin{frame}
-\frametitle{}
-  Cada operación homomórfica es $10^3 \sim 10^6$ veces más lento que sin  encriptar.
+\frametitle{Otros Problemas}
+
+Otros problemas es el consumo de memoria.
+
+Una mensaje homomorficamente encriptado puede ocupar $10^5$ más espacio.
+
+Las claves encriptadas pueden llegar a los GBs.
+
+Genera otro cuello de botella al tener que mover grandes cantidades de datos.
+
+Los esquemas FHE son iterativos con operaciones polinomiales de ordenes altos.
+
+\begin{mdframed}[backgroundcolor=frenchblue!20]
+  Arquitectura especializada: eficiencia en costo computacional y consumo de memoria.
+\end{mdframed}
 
 \end{frame}
+
 \begin{frame}
 \frametitle{}
   \begin{figure}[h!]
