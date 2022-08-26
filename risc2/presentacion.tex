@@ -1,5 +1,5 @@
-%\documentclass[handout]{beamer}
-\documentclass[10pt]{beamer}
+\documentclass[handout]{beamer}
+%\documentclass[10pt]{beamer}
 %for(int i=0; i<n; i++){\documentclass[10pt,handout]{beamer}
 \usepackage[spanish]{babel}
 % % \usepackage[backend=biber, style=authoryear-icomp]{biblatex}
@@ -32,7 +32,6 @@
 
 \usetheme{Copenhagen}
 \definecolor{frenchblue}{rgb}{0.0, 0.45, 0.73} % ESTE!!!!
-
 \setbeamercolor{block body}{bg=frenchblue!50}
 \setbeamercolor*{structure}{fg=frenchblue,bg=blue}
 \setbeamercolor{normal text}{fg=black}
@@ -148,6 +147,7 @@ El camino que tomó el doctorado  no me convenció $\to$ cambio de planes.
 
 \begin{frame}
 \frametitle{Cambio Doctorado}
+        \vspace{0.3cm}
 
 \begin{columns}
     \column{0.5\textwidth}
@@ -166,16 +166,19 @@ El camino que tomó el doctorado  no me convenció $\to$ cambio de planes.
     \column{0.5\textwidth}
 \begin{figure}[h!]
     \centering
-    \includegraphics[scale=0.19]{mult.jpg}
+    \includegraphics[scale=0.19]{fhe.jpg}
 \end{figure}
 \end{columns}
 
 
 Ej: Lograr procesar remotamente con machine learning sin revelar los datos.
+ \vspace{-0.25cm}
 
 Potencialmente con mucha utilidad para uso de cloud computing.
+ \vspace{-0.15cm}
 
-Actualidad: muy lento para uso real.
+Actualidad: ordenes de magnitud lento para uso real.
+ \vspace{-0.15cm}
 
 \begin{mdframed}[backgroundcolor=frenchblue!20]\centering
   Acelerar mediante hardware.
@@ -195,34 +198,68 @@ Actualidad: muy lento para uso real.
 
 \begin{frame}
 \frametitle{FHE}
-Requierimientos FHE:
+Requierimientos y problemas FHE:
+    \vspace{-0.3cm}
 \begin{itemize}
-  \item Homomorfismo en la suma y multiplicación.
-  \item Ilimitada cantidad de operaciones.
-  \item Tiempos razonables
+  \item[\textcolor{frenchblue}{\textbullet}] Homomorfismo en la suma y multiplicación.
+    \vspace{-0.3cm}
+    \begin{itemize}
+      \item[\textcolor{red}{\textbullet}]  No todo esquema es homomorfico en ambas operaciones. Ej RSA permite solo multiplicación (Partially HE).
+    \end{itemize}
+    \vspace{-0.3cm}
+  \item[\textcolor{frenchblue}{\textbullet}] Ilimitada cantidad de operaciones.
+    \vspace{-0.3cm}
+    \begin{itemize}
+      \item[\textcolor{red}{\textbullet}]  La mayoría de esquemas utilizan \texttt{Learning With Errors} (LWE). Aumentando su error por cada operación.
+    \end{itemize}
+    \vspace{-0.3cm}
+  \item[\textcolor{frenchblue}{\textbullet}] Tiempos razonables
+    \vspace{-0.3cm}
+    \begin{itemize}
+      \item[\textcolor{red}{\textbullet}]  Los esquemas actuales tienen un costo muy grande por cada operación: orden del segundo.
+    \end{itemize}
 \end{itemize}
 
-Problemas:
-\begin{itemize}
-  \item No todo esquema es homomorfico en ambas operaciones. Ej RSA permite solo multiplicación (Partially HE).
-  \item La mayoría de esquemas utilizan \texttt{Learning With Errors} (LWE). Aumentando su error por cada operación.
-  \item Los esquemas actuales tienen un costo muy grande por cada operación: orden del segundo.
-\end{itemize}
+%Los criptogramas suelen ser cientos o miles de veces mayor que los datos originales.
+\end{frame}
 
+\begin{frame}
+\frametitle{Ruido}
+\begin{columns}
+    \column{0.5\textwidth}
 
+    \column{0.5\textwidth}
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[scale=0.25]{multNoise.jpg}
+        \end{figure}
+\end{columns}
 
 
 \end{frame}
 
-\begin{frame}
-\frametitle{Boostraping}
-Gentry $\to$ \texttt{Boostraping}: reducir el error luego de una operación.
 
-El boostraping es uno de los principales cuellos de botella de FHE.
-\begin{figure}[h!]
-    \centering
-    \includegraphics[scale=0.3]{multNoise.jpg}
-\end{figure}
+\begin{frame}
+\frametitle{Bootstrapping}
+Gentry (2009) $\to$ primer  esquema FHE mediante \texttt{Bootstrapping}: reducir el error luego de una operación.
+
+Permite tener cualquier cantidad de operaciones.
+
+Operacion muy costosa: principal cuellos de botella de FHE.
+
+Para reducir su uso $\to$ multiples tecnicas: cambio de clave.
+
+
+\begin{mdframed}[backgroundcolor=frenchblue!20]
+  Bootstrapping y cambios de clave representan el 95\% del esferuzo computacion y movimientos de data.
+\end{mdframed}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{}
+  Cada operación homomórfica es $10^3 \sim 10^6$ veces más lento que sin  encriptar.
+
 \end{frame}
 \begin{frame}
 \frametitle{}
@@ -231,4 +268,7 @@ El boostraping es uno de los principales cuellos de botella de FHE.
       \includegraphics[scale=0.3]{agradecimientos.jpg}
   \end{figure}
 \end{frame}
+
+
+
 \end{document}
