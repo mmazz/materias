@@ -16,7 +16,7 @@
 \usepackage{soul}
 \usepackage{enumerate}
 \usepackage{longtable}
-\graphicspath{ {./figures/} } % declaramos donde estan las imagenes
+\graphicspath{ {./img/} } % declaramos donde estan las imagenes
 \usepackage[labelformat=simple]{subcaption} % para varias imagenes juntas
 \renewcommand\thesubfigure{(\alph{subfigure})}
 \usepackage[utf8]{inputenc}
@@ -135,16 +135,16 @@ Se propuso una mejora en el sistema de rankeo para plataformas online.
 
 \begin{frame}
 \frametitle{Doctorado}
-Propuesta original: Continuar el tema de la tesis utilizando el modelo de estimación y buscar su paralelización mediante GPU.
+Propuesta original: Continuar el tema de la tesis utilizando el modelo de estimación y buscar su \textbf{paralelización} mediante GPU.
 
 \pause
 La paralelización para el modelo no se justificaba $\rightarrow$ utilizar el modelo para responder otras preguntas.
 
 \pause
-Modelar y estudiar el aprendizaje humano.
+Modelar y estudiar el \textbf{aprendizaje humano}.
 
 \pause
-El camino que tomó el doctorado  no me convenció $\to$ cambio de planes.
+El camino que tomó el doctorado  no me convenció $\to$ \textbf{cambio de planes}.
 
 
 
@@ -156,13 +156,13 @@ El camino que tomó el doctorado  no me convenció $\to$ cambio de planes.
 
 \begin{columns}
     \column{0.5\textwidth}
-        Director: Esteban Mocskos UBA
+    \textbf{Director}: Esteban Mocskos UBA
         \vspace{0.3cm}
 
-        Codirector: Augusto Vega IBM
+      \textbf{Co-director}: Augusto Vega IBM
 
         \vspace{0.3cm}
-        Fully Homomorphic Encryption (FHE).
+        Fully Homomorphic Encryption (\textbf{FHE}).
 
 \pause
         \vspace{0.3cm}
@@ -178,14 +178,14 @@ El camino que tomó el doctorado  no me convenció $\to$ cambio de planes.
 
 
 \pause
-Ej: Lograr procesar remotamente con machine learning sin revelar los datos.
+Ej: Lograr procesar remotamente con machine learning \textbf{sin revelar los datos}.
  \vspace{-0.25cm}
 
 Potencialmente con mucha utilidad para uso de cloud computing.
  \vspace{-0.15cm}
 
-\pause
-Actualidad: ordenes de magnitud lento para uso real.
+ \pause
+ Actualidad: ordenes de magnitud \textbf{lento} para uso real.
  \vspace{-0.15cm}
 
 \pause
@@ -209,9 +209,10 @@ Actualidad: ordenes de magnitud lento para uso real.
 
 \begin{frame}
 \frametitle{FHE}
+\vspace{0.3cm}
 \begin{columns}
     \column{0.6\textwidth}
-    Requierimientos y problemas FHE:
+    Requierimientos y problemas FHE: (HE desde los años 80)
 \pause
 \begin{itemize}
   \item[\textcolor{frenchblue}{\textbullet}] Homomorfismo en la suma y multiplicación.
@@ -226,7 +227,7 @@ Actualidad: ordenes de magnitud lento para uso real.
       \item[\textcolor{red}{\textbullet}]  La mayoría de esquemas utilizan \texttt{Learning With Errors} (LWE). Aumentando su error por cada operación (principalmente en multiplicaciones).
     \end{itemize}
 \pause
-  \item[\textcolor{frenchblue}{\textbullet}] Tiempos razonables
+  \item[\textcolor{frenchblue}{\textbullet}] Tiempos razonables.
     \begin{itemize}
 \pause
       \item[\textcolor{red}{\textbullet}]  Los esquemas actuales tienen un costo muy grande por cada operación: orden del segundo.
@@ -249,16 +250,16 @@ Actualidad: ordenes de magnitud lento para uso real.
 
 \begin{frame}
 \frametitle{Bootstrapping}
-Gentry (2009) $\to$ primer  esquema FHE mediante \texttt{Bootstrapping}: reducir el error luego de una operación.
+Gentry (2009) $\to$ primer  esquema FHE mediante \texttt{Bootstrapping}: \textbf{reducir el error} luego de una operación.
 
 \pause
 Actualiza el cifrado produciendo un nuevo cifrado del mismo mensaje pero con menor ruido.
 
 \pause
-Descifrar homomorficamente: se vuelve a encriptar utilizando como clave la clave secreta encriptada.
+\textbf{Descifrar homomorficamente}: se vuelve a encriptar utilizando como clave la clave secreta encriptada.
 
 \pause
-Operación muy costosa: principal cuellos de botella de FHE.
+Operación muy costosa: principal \textbf{cuello de botella} de FHE.
 
 
 
@@ -268,34 +269,34 @@ Operación muy costosa: principal cuellos de botella de FHE.
 \end{mdframed}
 \end{frame}
 
-  \begin{frame}
+
+
+\begin{frame}
 \frametitle{Esquema simplificado}
-En general: Se trabaja con mensajes vectoriales $\to$ SIMD.
+En general: Se trabaja con mensajes \textbf{vectoriales} $\to$ SIMD.
     \vspace{-0.3cm}
 
 \pause
-  Pasos (simplifacacion del esquema CKKS):
-    \vspace{-0.3cm}
+Pasos (simplificación del esquema \textbf{CKKS}):
 \begin{itemize}
-  \item Anillo polinomial de orden alto ($2^{10} \sim 2^{18}$).
+    \vspace{-0.3cm}
+  \item El mensaje se codifica a texto plano m(X) como un \textbf{polinomio} de grado alto ($2^{10} \sim 2^{18}$).
 \pause
     \vspace{-0.3cm}
-  \item Se codifica a textoplano m(X) a un polinomio del anillo.
+  \item \textbf{Encriptar}: ct = (b(X), a(X)) = (a(X)*s(X) + m(X) + e(X), a(X)). a es un polinomio aleatorio, s clave secreta (polinomio), e error gausiano polinomial.
+\pause
+\vspace{-0.3cm}
+  \item \textbf{Desencriptar} ct: m$'$(X)= ct*(1,-s(X)) = b(X) - a(X)s(X) = m(X)+e(X) (buena aprox si e es chico).
 \pause
     \vspace{-0.3cm}
-  \item Encriptar: ct = (b(X), a(X)) = (a(X)*s(X) + m(X) + e(X), a(X)). A polinomio aleatorio, s clave secreta, e error gausiano polinomial.
+  \item \textbf{Suma} ct$_1$ + ct$_2$: (b$_1$(X) + b$_2$(X), a$_1$(X) + a$_2$(X)) $\to$ m$_1$ + m$_2$ + 2e (al desencriptar).
 \pause
     \vspace{-0.3cm}
-  \item Desencriptar ct: m$'$(X)= ct*(1,-s(X)) = m(X)+e(X) (buena aprox si e es chico).
+\item \textbf{Mult} ct$_1$*ct$_2$: (b$_1$*b$_2$, a$_1$*b$_2$+a$_2$*b$_1$, a$_1$*a$_2$) = ... =(Otro paso: cambio de clave, otra mult polinomial)
+  $\to$ m$_1$*m$_2$ + e$^2$ (al desencriptar)
 \pause
     \vspace{-0.3cm}
-  \item Suma ct$_1$ + ct$_2$: (b$_1$(X) + b$_2$(X), a$_1$(X) + a$_2$(X)).
-\pause
-    \vspace{-0.3cm}
-  \item Mult ct$_1$*ct$_2$: (b$_1$*b$_2$, a$_1$*b$_2$+a$_2$*b$_1$, a$_1$*a$_2$). (Otro paso: cambio de clave, otra mult polinomial)
-\pause
-    \vspace{-0.3cm}
-  \item Boostrapping: Cientos de Multiplicaciones homomorficas y shifteos circulares de bits.
+  \item \textbf{Boostrapping}: Cientos de Multiplicaciones homomórficas y shifteos circulares de bits (coeficientes $\sim$ 1000 bits).
 \end{itemize}
 
 \end{frame}
@@ -307,18 +308,14 @@ FHE es un tipo de encriptaciones muy costosa pero prometedora.
 
 
 \pause
-Tiene un gran consumo de memoria:
+Tiene un gran \textbf{consumo de memoria}:
 \pause
-Una mensaje homomorficamente encriptado puede ocupar $10^5$ más espacio y las claves encriptadas pueden llegar a los GBs.
+Un mensaje homomorficamente encriptado puede ocupar $10^5$ más espacio y las claves encriptadas pueden llegar a los GBs.
 Grandes movimientos de datos.
 
 \pause
-Tiene un gran consumo de memoria:
-\pause
-Una mensaje homomorficamente encriptado puede ocupar $10^5$ más espacio y las claves encriptadas pueden llegar a los GBs.
-Grandes movimientos de datos.
 
-Alto costo computacional:
+Alto \textbf{costo computacional}:
 \pause
   Los esquemas FHE son iterativos con operaciones polinomiales de ordenes altos y coeficientes grandes ($\sim 1000$bits).
 
@@ -334,7 +331,7 @@ Alto costo computacional:
   \begin{figure}[h!]
       \centering
       \includegraphics[scale=0.3]{agradecimientos.jpg}
-  \end{figure}
+    \end{figure}[]
 \end{frame}
 
 
